@@ -1,0 +1,26 @@
+{% extends "base.jinja2" %}
+{% block content %}
+    <div class="row">
+        <div class="eight columns offset-by-two">
+        {% if request.has_permission('post_news') %}
+        <div class="mini-right"><a href="{{ request.route_url('post_news') }}">Post news</a></div>
+        {% endif %}
+            <ul id="news-list">
+                <li>
+                {% for post in news %}
+                    <div class="news-post">
+                        <div class="news-post-header">
+                            <span class="news-post-title">{{ post.title }}</span>
+                            <span class="news-post-date">{{ post.date.strftime('%B %d, %Y') }}</span>
+                        </div>
+                        <span class="news-post-body">{{ post.body }} - <span class="news-post-user">{{ post.user.username }}</span></span>
+                    {% if request.has_permission('admin') %}
+                        <div class="mini-right"><a href="{{ request.route_url('admin_delete_item', model='NewsPost', id=post.id) }}">Delete</a></div>
+                    {% endif %}
+                    </div>
+                {% endfor %}
+                </li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}

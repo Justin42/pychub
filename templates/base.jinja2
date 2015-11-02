@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {% block head %}
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="pyramid web application">
+        <meta name="author" content="Pylons Project">
+        <link rel="stylesheet" href="{{request.static_url('pychub:static/css/skeleton.css')}}"/>
+        <link rel="stylesheet" href="{{request.static_url('pychub:static/css/basic.css')}}"/>
+                    <!-- <link rel="stylesheet" href="{{request.static_url('pychub:static/css/normalize.css')}}"/> -->
+        <title>{% block title %}{{ free_company.name }}{% endblock %}</title>
+        {% endblock %}
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="twelve columns">
+                    <img class="u-max-full-width" src="http://placehold.it/975x150"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="twelve columns">
+                    <nav>
+                        <ul>
+                            <li><a href="{{ request.route_url('home') }}">Home</a></li>
+                            <li><a href="#">Schedule</a></li>
+                            <li><a href="{{ request.route_url('members') }}">Members</a></li>
+                            <li><a href="#">Forums</a></li>
+                        {% if request.is_logged_in %}
+                            <li><a href="#">Account</a></li>
+                        {% else %}
+                            <li><a href="{{ request.route_url('login') }}">Login</a></li>
+                        {% endif %}
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            {% block content %}{% endblock %}
+        </div>
+    </body>
+</html>

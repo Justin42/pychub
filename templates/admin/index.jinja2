@@ -1,0 +1,12 @@
+{% extends "base.jinja2" %}
+{% block content %}
+    <div class="row">
+        <div class="four columns">
+            <ul>
+                {% for model in models %}
+                    <li><a href="{{ request.route_url('admin_view_model',model=model) }}">{{ model }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}

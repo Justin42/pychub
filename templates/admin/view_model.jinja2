@@ -1,0 +1,33 @@
+{% extends "base.jinja2" %}
+{% block content %}
+    <div class="row">
+    {% if model.objects %}
+        <div class="eight columns offset-by-two">
+            <table>
+                <thead>
+                    <tr>
+                    {% for field in fields %}
+                        <th>{{ field.capitalize() }}</th>
+                    {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in model.objects %}
+                    <tr>
+                        {% for field in fields %}
+                            {% set text = item[field]|string() %}
+                            <td>{{ text[:100] }}{% if text|length > 100 %}...{% endif %}</td>
+                        {% endfor %}
+                        <td><a href="{{ request.route_url('admin_delete_item', model=model_name, id=item.id) }}">Delete</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+    <div class="twelve columns">
+        <span class="center">No items found.</span>
+    </div>
+    {% endif %}
+    </div>
+{% endblock %}

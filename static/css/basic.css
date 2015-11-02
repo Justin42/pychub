@@ -1,0 +1,86 @@
+nav ul {
+    list-style-type: none;
+    margin: -0.5em 0 0;
+    overflow: hidden;
+    width: 100%;
+}
+nav ul li {
+    float: left;
+    background-color: black;
+    width: 12.8em;
+}
+nav ul li:hover {
+    background-color: grey;
+}
+nav ul li a:link, nav ul li a:visited {
+    color: ghostwhite;
+    display: block;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    min-width: 20%;
+}
+nav ul li a:hover {
+    color: black;
+}
+
+table.member-list tr td a{
+    display: block;
+    text-decoration: none;
+    color: black;
+}
+table.member-list tr td a:hover{
+    background-color: gray;
+}
+
+span.center {
+    display: block;
+    text-align: center;
+}
+
+ul#news-list {
+    list-style-type: none;
+}
+
+div.news-post {
+    display: block;
+    border-width: 1em;
+}
+div.news-post-header {
+    width: 100%;
+    text-align: center;
+    border-bottom: 1px solid black;
+}
+span.news-post-title {
+    display: inline;
+    width: 80%;
+    float: left;
+    text-align: left;
+    font-weight: bold;
+    font-style: italic;
+}
+span.news-post-body {
+    display: block;
+    text-align: center;
+}
+span.news-post-date {
+    display: inline;
+    width: 20%;
+    text-align: right;
+    font-weight: lighter;
+    font-style: italic;
+}
+span.news-post-user {
+    font-weight: bold;
+    font-style: italic;
+}
+div.news-post {
+    border: 1px solid black;
+    margin-bottom: 2em;
+}
+div.mini-right {
+    text-align: right;
+}
+div.mini-right a {
+    text-decoration: none;
+}

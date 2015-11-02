@@ -1,0 +1,23 @@
+{% extends "base.jinja2" %}
+{% block content %}
+<div class="row">
+    <div class="six columns offset-by-three">
+        <table class="u-full-width member-list">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Rank</th>
+                <tr>
+            </thead>
+            <tbody>
+            {% for member in free_company.sorted_member_list %}
+                <tr>
+                <td><a href="http://na.finalfantasyxiv.com/lodestone/character/{{ member.lodestone_id }}" target="_blank">{{ member.name }}</a></td>
+                <td>{{ member.rank }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
