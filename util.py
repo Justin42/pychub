@@ -1,21 +1,19 @@
 from mongoengine import DoesNotExist
 
-from model import classes
 from model.User import Character, ClassData, AchievementInfo
-from model.FreeCompany import FreeCompany
-from pychub.model.FreeCompany import FreeCompanyEstate
+from model.FreeCompany import FreeCompany, FreeCompanyEstate
 
 
 def fc_from_dict(fc_dict):
     fc = FreeCompany()
 
     for key, value in fc_dict.items():
-        fc.__setattr__(key, value)
+        setattr(fc, key, value)
 
     if 'estate' in fc_dict:
         estate = FreeCompanyEstate()
         for key, value in fc_dict['estate'].items():
-            estate.__setattr__(key, value)
+            setattr(estate, key, value)
         fc.estate = estate
     return fc
 
