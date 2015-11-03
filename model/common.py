@@ -13,7 +13,7 @@ servers = ['Aegis', 'Atomos', 'Carbuncle', 'Garuda', 'Gungnir', 'Kujata', 'Ramuh
              'Cerberus', 'Lich', 'Moogle', 'Odin', 'Phoenix', 'Ragnarok', 'Shiva', 'Zodiark']
 
 classes = ['Gladiator', 'Pugilist', 'Marauder', 'Lancer', 'Archer', 'Rogue', 'Conjurer',
-             'Thaumaturge', 'Arcanist', 'Dark Knight', 'Machinist', 'Astrologian', 'Carpeneter',
+             'Thaumaturge', 'Arcanist', 'Dark Knight', 'Machinist', 'Astrologian', 'Carpenter',
              'Blacksmith', 'Armorer', 'Goldsmith', 'Leatherworker', 'Weaver', 'Alchemist',
              'Culinarian', 'Miner', 'Botanist', 'Fisher']
 
