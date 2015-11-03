@@ -1,7 +1,9 @@
 from datetime import datetime
+
+from mongoengine import DoesNotExist
 from pyramid.httpexceptions import HTTPNotFound, HTTPFound
 from pyramid.view import view_config
-from pychub.model.User import User
+from pychub.model.User import User, Character
 from pychub.model.NewsPost import NewsPost
 
 __author__ = 'Justin Baldwin'
@@ -29,6 +31,16 @@ def post_news(request):
         return HTTPFound(location=request.route_url('home'))
     else:
         return {}
+
+
+@view_config(route_name='character', renderer='character.jinja2')
+def view_character(request):
+    try:
+        character = Character.objects.get(lodestone_id=request.matchdict['id'])
+    except DoesNotExist:
+        return HTTPNotFound()
+
+    return {'character': character}
 
 
 @view_config(context=HTTPNotFound, renderer='error/not_found.jinja2')

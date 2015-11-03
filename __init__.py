@@ -9,11 +9,11 @@ import mongoengine as mongo
 from pyramid.events import subscriber, BeforeRender
 
 from pychub import request_methods
-from pychub.lodestone.LodestoneClient import LodestoneClient
-from pychub.model.FreeCompany import FreeCompany
+from lodestone.LodestoneClient import LodestoneClient
+from model.FreeCompany import FreeCompany
 from pychub.request_methods import *
-from pychub.security import get_groups, RootFactory
-from pychub.util import fc_from_dict
+from security import get_groups, RootFactory
+from util import fc_from_dict, character_from_dict
 
 renderer_globals = {}
 
@@ -30,7 +30,7 @@ def main(global_config, **settings):
     # Database connect
     mongo.connect(config.registry.settings['mongo_database'])
 
-    # Store FC info
+    # Collect initial data
     try:
         lodestone_id = config.registry.settings['free_company.id']
         free_company = FreeCompany.objects.get(lodestone_id=lodestone_id)
@@ -40,6 +40,11 @@ def main(global_config, **settings):
         lodestone.get_fc_members(free_company)
         free_company = fc_from_dict(free_company)
         free_company.save()
+        for name, data in free_company.members.items:
+            char = lodestone.get_character_data(data['lodestone_id'], True)
+            char = character_from_dict(char)
+            char.save()
+            break
     renderer_globals['free_company'] = free_company
 
     # Add request methods dynamically
@@ -53,6 +58,7 @@ def main(global_config, **settings):
     config.add_route('login', '/login')
     config.add_route('session', '/session')
     config.add_route('members', '/members')
+    config.add_route('character', '/character/{id}')
 
     # Admin routes
     config.add_route('post_news', '/post_news')
