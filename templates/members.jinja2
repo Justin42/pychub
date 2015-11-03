@@ -12,7 +12,7 @@
             <tbody>
             {% for member in free_company.sorted_member_list %}
                 <tr>
-                <td><a href="http://na.finalfantasyxiv.com/lodestone/character/{{ member.lodestone_id }}" target="_blank">{{ member.name }}</a></td>
+                <td><a href="{{ request.route_url('character', id=member.lodestone_id) }}" target="_blank">{{ member.name }}</a></td>
                 <td>{{ member.rank }}</td>
                 </tr>
             {% endfor %}
