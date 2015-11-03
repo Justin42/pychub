@@ -2,12 +2,14 @@ import random
 import string
 import types
 
+import time
 from pyramid.authentication import AuthTktAuthenticationPolicy
 from pyramid.authorization import ACLAuthorizationPolicy
 from pyramid.config import Configurator
 import mongoengine as mongo
 from pyramid.events import subscriber, BeforeRender
 
+from model.User import Character
 from pychub import request_methods
 from lodestone.LodestoneClient import LodestoneClient
 from model.FreeCompany import FreeCompany
@@ -31,20 +33,26 @@ def main(global_config, **settings):
     mongo.connect(config.registry.settings['mongo_database'])
 
     # Collect initial data
+    lodestone = LodestoneClient()
     try:
         lodestone_id = config.registry.settings['free_company.id']
         free_company = FreeCompany.objects.get(lodestone_id=lodestone_id)
     except DoesNotExist:
-        lodestone = LodestoneClient()
         free_company = lodestone.get_fc_by_id(config.registry.settings['free_company.id'])
         lodestone.get_fc_members(free_company)
         free_company = fc_from_dict(free_company)
         free_company.save()
-        for name, data in free_company.members.items:
+
+    for name, data in free_company.members.items():
+        try:
+            Character.objects.get(lodestone_id=data['lodestone_id'])
+        except DoesNotExist:
+            print('Updating character data for', name)
             char = lodestone.get_character_data(data['lodestone_id'], True)
             char = character_from_dict(char)
             char.save()
-            break
+            time.sleep(1) # Slight delay between character data
+
     renderer_globals['free_company'] = free_company
 
     # Add request methods dynamically
