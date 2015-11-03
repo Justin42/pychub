@@ -1,5 +1,7 @@
 from datetime import datetime
 from mongoengine import connect
+
+from pychub import FreeCompany
 from pychub.model.NewsPost import NewsPost
 from pychub.model.User import User
 

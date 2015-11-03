@@ -4,7 +4,8 @@ from pychub.lodestone.LodestoneClient import LodestoneClient
 from pychub.model.FreeCompany import FreeCompany, FreeCompanyEstate
 import datetime
 from mongoengine import *
-from pychub.model.User import User
+from pychub.model.User import User, Character
+from util import character_from_dict
 
 
 class DatabaseTest(unittest.TestCase):
@@ -68,3 +69,17 @@ class TestUser(unittest.TestCase):
         user.save()
         user = User.objects.get(username='TestUser')
         self.assertTrue(user.check_password('test'))
+
+
+class TestUtil(unittest.TestCase):
+    def setUp(self):
+        connect('Test')
+        Character.drop_collection()
+        self.lodestone = LodestoneClient()
+
+    def test_character_from_dict(self):
+        char = self.lodestone.get_character_data('7208613', True)
+        char = character_from_dict(char)
+        char.save()
+        char = Character.objects.get(lodestone_id='7208613')
+        self.assertEquals(char.name, 'Squish Twirly')

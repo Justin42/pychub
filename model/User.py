@@ -1,7 +1,8 @@
 from bcrypt import hashpw, gensalt
 from mongoengine import *
+
+from model.FreeCompany import FreeCompany
 from .common import *
-from .FreeCompany import FreeCompany
 
 
 class ClassData(EmbeddedDocument):
@@ -13,7 +14,9 @@ class ClassData(EmbeddedDocument):
 
 class AchievementInfo(EmbeddedDocument):
     date = DateTimeField()
+    type = StringField()
     name = StringField()
+    text = StringField()
 
 
 class Character(Document):
@@ -23,7 +26,7 @@ class Character(Document):
     confirmed = BooleanField(required=True, default=False)
     guardian = StringField()
     gender = StringField(choices=genders)
-    classes = EmbeddedDocumentField(ClassData)
+    classes = ListField(EmbeddedDocumentField(ClassData))
     nameday = StringField(required=True)
     city_state = StringField(required=True)
     grand_company = StringField(choices=grand_companies)
@@ -33,11 +36,11 @@ class Character(Document):
     recent_achievements = ListField(EmbeddedDocumentField(AchievementInfo))
     race = StringField(choices=races)
     lodestone_profile = StringField()
-    lodestone_id = StringField()
+    lodestone_id = StringField(unique=True, required=True)
 
     @property
     def user(self):
-        return User.objects(characters__name=self.name)
+        return User.objects(characters__id=self.id)
 
 
 class User(Document):
