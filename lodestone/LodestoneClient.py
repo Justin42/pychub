@@ -91,8 +91,12 @@ class LodestoneClient:
         character['nameday'] = tmp[0].text
         character['guardian'] = tmp[1].text
         character['city_state'] = tmp[2].text
-        character['grand_company'] = tmp[3].text.split('/')[0]
-        character['grand_company_rank'] = tmp[3].text.split('/')[1]
+        try:
+            character['grand_company'] = tmp[3].text.split('/')[0]
+            character['grand_company_rank'] = tmp[3].text.split('/')[1]
+        except IndexError:  # User has no grand company
+            character['grand_company'] = None
+            character['grand_company_rank'] = None
         character['mounts'] = [node.attrs['title'] for node in
                                page.select(self.config['selector.character.mounts'])[0].findAll('a')
                                if 'title' in node.attrs]
