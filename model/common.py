@@ -19,6 +19,6 @@ classes = ['Gladiator', 'Pugilist', 'Marauder', 'Lancer', 'Archer', 'Rogue', 'Co
 
 grand_companies = ['Immortal Flames', 'Maelstrom', 'Order of the Twin Adder', 'No Affiliation']
 
-races = ['Miqo\'te', ]
+races = ['Miqo\'te', 'Hyur', 'Elezen', 'Lalafell', 'Roegadyn', 'Au Ra']
 
 genders = ['Male', 'Female']
