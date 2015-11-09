@@ -1,9 +1,9 @@
 from datetime import datetime
+
 from mongoengine import connect
 
-from pychub import FreeCompany
 from pychub.model.NewsPost import NewsPost
-from pychub.model.User import User
+from pychub.model.User import User, Character
 
 
 def init_test_db():
@@ -31,3 +31,23 @@ def init_test_db():
     news_post.save()
 
 
+def most_minions():
+    connect('CompanyHub')
+    highest = Character.objects[0]
+    for char in Character.objects:
+        if len(char.minions) == len(highest.minions):
+            print(char.name, 'tied with', highest.name, 'with', len(char.minions), 'minions')
+        if len(char.minions) > len(highest.minions):
+            highest = char
+    print(highest.name, "has the most minions with", len(highest.minions))
+
+
+def most_mounts():
+    connect('CompanyHub')
+    highest = Character.objects[0]
+    for char in Character.objects:
+        if len(char.mounts) == len(highest.mounts):
+            print(char.name, 'tied with', highest.name, 'with', len(char.mounts), 'mounts')
+        if len(char.mounts) > len(highest.mounts):
+            highest = char
+    print(highest.name, "has the most mounts with", len(highest.mounts))

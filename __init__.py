@@ -8,6 +8,7 @@ from pyramid.authorization import ACLAuthorizationPolicy
 from pyramid.config import Configurator
 import mongoengine as mongo
 from pyramid.events import subscriber, BeforeRender
+from pyramid.session import SignedCookieSessionFactory
 
 from model.User import Character
 from pychub import request_methods
@@ -28,6 +29,7 @@ def main(global_config, **settings):
     config.add_jinja2_search_path('templates', prepend=True)
     config.set_authentication_policy(AuthTktAuthenticationPolicy(gen_secret(20), callback=get_groups, hashalg='sha512'))
     config.set_authorization_policy(ACLAuthorizationPolicy())
+    config.set_session_factory(SignedCookieSessionFactory(gen_secret(20)))
 
     # Database connect
     mongo.connect(config.registry.settings['mongo_database'])
@@ -64,6 +66,7 @@ def main(global_config, **settings):
     config.add_static_view('static', 'static', cache_max_age=3600)
     config.add_route('home', '/')
     config.add_route('login', '/login')
+    config.add_route('register', '/register')
     config.add_route('session', '/session')
     config.add_route('members', '/members')
     config.add_route('character', '/character/{id}')

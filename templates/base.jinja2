@@ -37,7 +37,12 @@
                     </nav>
                 </div>
             </div>
+            <div class="row">
+                <div class="twelve columns">
+                <span class="center">{{ ''.join(request.session.pop_flash()) }}</span>
+            </div>
             {% block content %}{% endblock %}
         </div>
+    </div>
     </body>
 </html>

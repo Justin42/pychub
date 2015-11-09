@@ -44,7 +44,7 @@ class Character(Document):
 
 
 class User(Document):
-    username = StringField(required=True, max_length=20, min_length=5, unique=True)
+    username = StringField(required=True, max_length=20, min_length=3, unique=True)
     __password = StringField(required=True, db_field='password')
     email = EmailField(required=True, unique=True)
     groups = ListField(StringField(choices=groups))

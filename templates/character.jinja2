@@ -1,4 +1,27 @@
 {% extends "base.jinja2" %}
 {% block title %}{{ character.name }}{% endblock %}
 {% block content %}
+    <div class="row">
+        <div class="four columns offset-by-four">
+            <span class="center">{{ character.name }}</span>
+            <table class="u-max-full-width center-block">
+                <tbody>
+                    <tr>
+                        <td>Free Company:</td>
+                        <td>{{ character.free_company.name }}</td>
+                    </tr>
+                    <tr>
+                        <td>Server:</td>
+                        <td>{{ character.server }}</td>
+                    </tr>
+                    {% for data in character.classes %}
+                    <tr>
+                        <td>{{ data.name }}</td>
+                        <td>{{ data.level }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 {% endblock %}

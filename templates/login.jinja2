@@ -8,8 +8,10 @@
                 <input type="text" name="username"/>
                 <label for="password">Password</label>
                 <input type="text" name="password">
-                <input type="submit" value="Login"/>
+                <input class="button-primary" type="submit" value="Login"/>
             </form>
+                <span class="center">If you do not have an account...</span>
+                <a class="button" href="{{ request.route_url('register') }}">Register!</a>
         </div>
     </div>
 {% endblock %}
