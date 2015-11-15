@@ -1,22 +1,19 @@
-import random
-import string
+import time
 import types
 
-import time
 from pyramid.authentication import AuthTktAuthenticationPolicy
 from pyramid.authorization import ACLAuthorizationPolicy
 from pyramid.config import Configurator
-import mongoengine as mongo
 from pyramid.events import subscriber, BeforeRender
 from pyramid.session import SignedCookieSessionFactory
 
-from model.User import Character
-from pychub import request_methods
+import request_methods
 from lodestone.LodestoneClient import LodestoneClient
 from model.FreeCompany import FreeCompany
-from pychub.request_methods import *
-from security import get_groups, RootFactory
-from util import fc_from_dict, character_from_dict
+from model.User import Character
+from security import get_groups
+from util import gen_random
+import mongoengine as mongo
 
 renderer_globals = {}
 
@@ -27,9 +24,9 @@ def main(global_config, **settings):
     config = Configurator(settings=settings, root_factory='pychub.security.RootFactory')
     config.include('pyramid_jinja2')
     config.add_jinja2_search_path('templates', prepend=True)
-    config.set_authentication_policy(AuthTktAuthenticationPolicy(gen_secret(20), callback=get_groups, hashalg='sha512'))
+    config.set_authentication_policy(AuthTktAuthenticationPolicy(gen_random(20), callback=get_groups, hashalg='sha512'))
     config.set_authorization_policy(ACLAuthorizationPolicy())
-    config.set_session_factory(SignedCookieSessionFactory(gen_secret(20)))
+    config.set_session_factory(SignedCookieSessionFactory(gen_random(20)))
 
     # Database connect
     mongo.connect(config.registry.settings['mongo_database'])
@@ -39,19 +36,19 @@ def main(global_config, **settings):
     try:
         lodestone_id = config.registry.settings['free_company.id']
         free_company = FreeCompany.objects.get(lodestone_id=lodestone_id)
-    except DoesNotExist:
+    except mongo.DoesNotExist:
         free_company = lodestone.get_fc_by_id(config.registry.settings['free_company.id'])
         lodestone.get_fc_members(free_company)
-        free_company = fc_from_dict(free_company)
+        free_company = FreeCompany.from_dict(free_company)
         free_company.save()
 
     for name, data in free_company.members.items():
         try:
             Character.objects.get(lodestone_id=data['lodestone_id'])
-        except DoesNotExist:
+        except mongo.DoesNotExist:
             print('Updating character data for', name)
             char = lodestone.get_character_data(data['lodestone_id'], True)
-            char = character_from_dict(char)
+            char = Character.from_dict(char)
             char.save()
             time.sleep(1) # Slight delay between character data
 
@@ -88,8 +85,3 @@ def add_renderer_globals(event):
     for key, value in renderer_globals.items():
         event[key] = value
 
-
-def gen_secret(length):
-    return ''.join(
-        random.SystemRandom().choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) for _ in
-        range(length))

@@ -1,11 +1,11 @@
 import unittest
 
+from exceptions import InvalidLinkCode
 from pychub.lodestone.LodestoneClient import LodestoneClient
 from pychub.model.FreeCompany import FreeCompany, FreeCompanyEstate
 import datetime
 from mongoengine import *
 from pychub.model.User import User, Character
-from util import character_from_dict
 
 
 class DatabaseTest(unittest.TestCase):
@@ -70,6 +70,22 @@ class TestUser(unittest.TestCase):
         user = User.objects.get(username='TestUser')
         self.assertTrue(user.check_password('test'))
 
+    def test_link_character(self):
+        # Create user
+        user = User()
+        user.username = 'TestUser'
+        user.email = 'email@exampl.com'
+        user.set_password('test')
+        user.save()
+        code = user.get_link_code('Squish Twirly', 'Brynhildr')
+
+        # Test for invalid link codes
+        self.assertRaises(InvalidLinkCode, user.link_character, 'thisisinvalid')
+
+        # Test that proper character was linked
+        character = user.link_character(code)
+        self.assertEquals(character.name, 'Squish Twirly')
+
 
 class TestUtil(unittest.TestCase):
     def setUp(self):
@@ -79,7 +95,7 @@ class TestUtil(unittest.TestCase):
 
     def test_character_from_dict(self):
         char = self.lodestone.get_character_data('7208613', True)
-        char = character_from_dict(char)
+        char = Character.from_dict(char)
         char.save()
         char = Character.objects.get(lodestone_id='7208613')
         self.assertEquals(char.name, 'Squish Twirly')

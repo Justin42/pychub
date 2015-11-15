@@ -29,25 +29,3 @@ def init_test_db():
     news_post.title = 'Test Post'
     news_post.body = 'Testing. Only a test.'
     news_post.save()
-
-
-def most_minions():
-    connect('CompanyHub')
-    highest = Character.objects[0]
-    for char in Character.objects:
-        if len(char.minions) == len(highest.minions):
-            print(char.name, 'tied with', highest.name, 'with', len(char.minions), 'minions')
-        if len(char.minions) > len(highest.minions):
-            highest = char
-    print(highest.name, "has the most minions with", len(highest.minions))
-
-
-def most_mounts():
-    connect('CompanyHub')
-    highest = Character.objects[0]
-    for char in Character.objects:
-        if len(char.mounts) == len(highest.mounts):
-            print(char.name, 'tied with', highest.name, 'with', len(char.mounts), 'mounts')
-        if len(char.mounts) > len(highest.mounts):
-            highest = char
-    print(highest.name, "has the most mounts with", len(highest.mounts))

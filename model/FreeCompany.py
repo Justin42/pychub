@@ -42,3 +42,17 @@ class FreeCompany(Document):
                 if data['rank'] == rank:
                     members.append(data)
         return members
+
+    @staticmethod
+    def from_dict(fc_dict):
+        fc = FreeCompany()
+
+        for key, value in fc_dict.items():
+            setattr(fc, key, value)
+
+        if 'estate' in fc_dict:
+            estate = FreeCompanyEstate()
+            for key, value in fc_dict['estate'].items():
+                setattr(estate, key, value)
+            fc.estate = estate
+        return fc
