@@ -69,15 +69,15 @@ class Character(Document):
 
 
 class LinkCode(EmbeddedDocument):
-    character = ReferenceField(Character, required=True, unique=True)
-    code = StringField(required=True)
+    character = ReferenceField(Character)
+    code = StringField()
 
 
 class User(Document):
     username = StringField(required=True, max_length=20, min_length=3, unique=True)
     __password = StringField(required=True, db_field='password')
     email = EmailField(required=True, unique=True)
-    groups = ListField(StringField(choices=groups))
+    groups = ListField(StringField(choices=groups), default=['member'])
     characters = ListField(ReferenceField(Character))
     link_code = EmbeddedDocumentField(LinkCode)
 

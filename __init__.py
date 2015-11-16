@@ -62,11 +62,15 @@ def main(global_config, **settings):
     # Routing
     config.add_static_view('static', 'static', cache_max_age=3600)
     config.add_route('home', '/')
-    config.add_route('login', '/login')
-    config.add_route('register', '/register')
     config.add_route('session', '/session')
     config.add_route('members', '/members')
     config.add_route('character', '/character/{id}')
+
+    # Account
+    config.add_route('login', '/login')
+    config.add_route('register', '/register')
+    config.add_route('account', '/account')
+    config.add_route('account_add_character', '/account/character/add')
 
     # Admin routes
     config.add_route('post_news', '/post_news')
@@ -84,4 +88,6 @@ def main(global_config, **settings):
 def add_renderer_globals(event):
     for key, value in renderer_globals.items():
         event[key] = value
+
+
 

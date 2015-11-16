@@ -27,7 +27,7 @@ def login(request):
 
 
 @view_config(route_name='register', renderer='register.jinja2')
-def register(request):
+def register(request): # TODO Add captcha and e-mail verification
     if request.POST:
         if not request.POST['username'] or not request.POST['password'] or not request.POST['email']:
             request.session.flash('Username, password, and e-mail are required fields.')
