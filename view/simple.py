@@ -3,10 +3,8 @@ from datetime import datetime
 from mongoengine import DoesNotExist
 from pyramid.httpexceptions import HTTPNotFound, HTTPFound
 from pyramid.view import view_config
-from pychub.model.User import User, Character
-from pychub.model.NewsPost import NewsPost
-
-__author__ = 'Justin Baldwin'
+from model.User import User, Character
+from model.NewsPost import NewsPost
 
 
 @view_config(route_name='home', renderer='home.jinja2')

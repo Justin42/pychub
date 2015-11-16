@@ -1,13 +1,14 @@
 from pyramid.httpexceptions import HTTPNotFound, HTTPFound
 from pyramid.view import view_config
 
-from pychub import User
-from pychub.model.NewsPost import NewsPost
+from model.NewsPost import NewsPost
+from model.User import User
 
 models = {'User': User, 'NewsPost': NewsPost}
 actions = ['view', 'edit', 'add', 'delete']
 fields = {'User': ['username', 'email', 'groups']}
 display_models = {'User': User}
+
 
 @view_config(route_name='admin', renderer='admin/index.jinja2', permission='admin')
 def index(request):
