@@ -1,4 +1,4 @@
-groups = ['admin']
+groups = ['admin', 'member']
 
 servers = ['Aegis', 'Atomos', 'Carbuncle', 'Garuda', 'Gungnir', 'Kujata', 'Ramuh', 'Tonberry',
              'Typon', 'Unicorn',
