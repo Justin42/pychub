@@ -29,7 +29,7 @@
                             <li><a href="{{ request.route_url('members') }}">Members</a></li>
                             <li><a href="#">Forums</a></li>
                         {% if request.is_logged_in %}
-                            <li><a href="#">Account</a></li>
+                            <li><a href="{{ request.route_url('account') }}">Account</a></li>
                         {% else %}
                             <li><a href="{{ request.route_url('login') }}">Login</a></li>
                         {% endif %}

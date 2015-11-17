@@ -1,0 +1,32 @@
+{% extends "base.jinja2" %}
+{% block title %}{{ free_company.name }} - Post News{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="eight columns offset-by-two">
+
+            <!-- Step 1 -->
+            {% if not link_code %}
+            <div class="full-width">
+                <form method="POST" id="add-character">
+                    <label for="name">Character Name</label>
+                    <input type="text" name="name" class="u-full-width"/>
+                    <label for="server">Server</label>
+                    <textarea name="server" rows="15" class="u-full-width" style="height: 10em;"></textarea>
+                    <input type="submit" value="Add Character"/>
+                </form>
+            </div>
+
+            <!-- Step 2 -->
+            {% else %}
+            <div class="full-width">
+                <span class="center-block">Place this code inside the profile of {{ character_name }}</span><br/>
+                <span class="center-block">{{ link_code }}</span>
+            <form method="POST" id="confirm-add-character">
+                <input type="hidden" name="confirm"/>
+                <input type="submit" value="Confirm"/>
+            </form>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

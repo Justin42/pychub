@@ -12,7 +12,7 @@ from lodestone.LodestoneClient import LodestoneClient
 from model.FreeCompany import FreeCompany
 from model.User import Character
 from security import get_groups
-from util import gen_random
+from util import gen_random, lodestone
 import mongoengine as mongo
 
 renderer_globals = {}
@@ -32,7 +32,6 @@ def main(global_config, **settings):
     mongo.connect(config.registry.settings['mongo_database'])
 
     # Collect initial data
-    lodestone = LodestoneClient()
     try:
         lodestone_id = config.registry.settings['free_company.id']
         free_company = FreeCompany.objects.get(lodestone_id=lodestone_id)

@@ -2,8 +2,8 @@ from datetime import datetime
 
 from mongoengine import connect
 
-from pychub.model.NewsPost import NewsPost
-from pychub.model.User import User, Character
+from model.NewsPost import NewsPost
+from model.User import User, Character
 
 
 def init_test_db():
@@ -29,3 +29,6 @@ def init_test_db():
     news_post.title = 'Test Post'
     news_post.body = 'Testing. Only a test.'
     news_post.save()
+
+if __name__ == '__main__':
+    init_test_db()

@@ -1,4 +1,17 @@
 {% extends "base.jinja2" %}
 {% block title %}{{ user.username }}{% endblock %}
 {% block content %}
+    <div class="row">
+        <div class="eight columns offset-by-two">
+            {% if not user.characters %}
+                <span class="center-block">There are no characters linked to your account.</span><br/>
+            {% endif %}
+
+            <a href="{{ request.route_url('account_add_character') }}">Add character</a><br/>
+
+            {% for character in user.characters %}
+                <span class="center-block">{{ character.name }}</span>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}

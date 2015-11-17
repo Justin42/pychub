@@ -1,10 +1,12 @@
+import warnings
+
 from bcrypt import hashpw, gensalt
 from mongoengine import *
 
 from exceptions import CharacterNotFound, CharacterAlreadyLinked, InvalidLinkCode
 from model.FreeCompany import FreeCompany
 from model.common import classes, servers, genders, grand_companies, races, groups
-from util import gen_random
+from util import gen_random, lodestone
 
 
 class ClassData(EmbeddedDocument):
@@ -46,6 +48,7 @@ class Character(Document):
 
     @staticmethod
     def from_dict(char_dict):
+        warnings.warn("deprecated", DeprecationWarning)
         character = Character()
 
         for key, value in char_dict.items():
@@ -66,6 +69,31 @@ class Character(Document):
         except DoesNotExist:  # TODO Logging
             return None
         return character
+
+    def update_lodestone_data(self, achievements=True):
+        new_data = lodestone.get_character_data(self.lodestone_id, achievements)
+
+        # Update basic
+        for key, value in new_data.items():
+            setattr(self, key, value)
+
+        # Update classes
+        self.classes = [
+            ClassData(name=c['name'], level=c['level'], current_exp=c['current_exp'], next_exp=c['next_exp']) for
+            c in new_data['classes']
+        ]
+
+        # Update Achievements
+        self.recent_achievements = [
+            AchievementInfo(date=a['date'], type=a['type'], name=a['name'], text=a['text']) for
+            a in new_data['recent_achievements']
+        ]
+        try:
+            self.free_company = FreeCompany.objects.get(lodestone_id=new_data['free_company'])
+        except DoesNotExist:  # TODO Logging
+            return None
+
+        return self
 
 
 class LinkCode(EmbeddedDocument):
@@ -93,25 +121,23 @@ class User(Document):
             character = Character.objects.get(server=server, name=character_name)
         except DoesNotExist:
             raise CharacterNotFound
-        # Check if character is already linked to an account
-        if character.confirmed:
-            raise CharacterAlreadyLinked
         link_code = LinkCode(character=character, code=gen_random(20))
         self.link_code = link_code
         self.save()
         return link_code.code
 
-    def link_character(self, code):
-        # Check if character is already linked to an account
-        character = self.link_code.character
-        if character.confirmed:
-            raise CharacterAlreadyLinked
-        if self.link_code.code == code:
-            self.update(push__characters=character)
-            character.confirmed = True
-            character.save()
+    def confirm_character(self):
+        if not self.link_code:
+            return False
+
+        character = self.link_code.character.update_lodestone_data()
+
+        # Check profile contents
+        if self.link_code.code in character.lodestone_profile:
             self.link_code = None
             self.save()
-        else:
-            raise InvalidLinkCode
+            character.confirmed = True
+            character.save()
+            self.update(push__characters=character)
+
         return character
