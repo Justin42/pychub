@@ -71,6 +71,11 @@ def main(global_config, **settings):
     config.add_route('account', '/account')
     config.add_route('account_add_character', '/account/character/add')
 
+    # Forum
+    config.add_route('forum', '/forum')
+    config.add_route('forum_category', '/forum/{category_name}')
+    config.add_route('forum_topic', '/forum/topic/{topic_id}/{page}')
+
     # Admin routes
     config.add_route('post_news', '/post_news')
     config.add_route('admin', '/admin')

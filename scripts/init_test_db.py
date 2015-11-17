@@ -2,6 +2,7 @@ from datetime import datetime
 
 from mongoengine import connect
 
+from model.Forum import Category, Topic, Post
 from model.NewsPost import NewsPost
 from model.User import User, Character
 
@@ -29,6 +30,15 @@ def init_test_db():
     news_post.title = 'Test Post'
     news_post.body = 'Testing. Only a test.'
     news_post.save()
+
+    Category.drop_collection()
+    category = Category(name="Test Category", link_alias='test', description="This is a test.")
+    category.save()
+
+    Topic.drop_collection()
+    topic = Topic(name='Test Topic', category=category, user=user)
+    topic.posts.append(Post(user=user, content="This is a test post."))
+    topic.save()
 
 if __name__ == '__main__':
     init_test_db()
