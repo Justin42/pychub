@@ -1,0 +1,21 @@
+{% extends "base.jinja2" %}
+{% block content %}
+    <div class="row">
+        <div class="eight columns offset-by-two">
+            <ul id="news-list">
+                <li>
+                {% for topic in topics %}
+                    <div class="topic">
+                        <div class="topic-header">
+                            <span class="topic-name">
+                                <a href="{{ request.route_url('forum_topic', topic_id=topic.id, page=1) }}">{{ topic.name }}</a>
+                            </span>
+                        </div>
+                        <span class="topic-description">{{ topic.posts[0].content }}</span>
+                    </div>
+                {% endfor %}
+                </li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}

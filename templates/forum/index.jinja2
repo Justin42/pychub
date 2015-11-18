@@ -1,0 +1,25 @@
+{% extends "base.jinja2" %}
+{% block content %}
+    <div class="row">
+        <div class="eight columns offset-by-two">
+            <ul id="news-list">
+                <li>
+                {% for category in categories %}
+                    <div class="category">
+                        <div class="category-header">
+                            <span class="category-title">
+                            {% if category.link_alias %}
+                                <a href="{{ request.route_url('forum_category', category_name=category.link_alias) }}">{{ category.name }}</a>
+                            {% else %}
+                                <a href="{{ request.route_url('forum_category', category_name=category.name) }}">{{ category.name }}</a>
+                            {% endif %}
+                            </span>
+                        </div>
+                        <span class="category-description">{{ category.description }}</span>
+                    </div>
+                {% endfor %}
+                </li>
+            </ul>
+        </div>
+    </div>
+{% endblock %}

@@ -27,7 +27,7 @@
                             <li><a href="{{ request.route_url('home') }}">Home</a></li>
                             <li><a href="#">Schedule</a></li>
                             <li><a href="{{ request.route_url('members') }}">Members</a></li>
-                            <li><a href="#">Forums</a></li>
+                            <li><a href="{{ request.route_url('forum') }}">Forums</a></li>
                         {% if request.is_logged_in %}
                             <li><a href="{{ request.route_url('account') }}">Account</a></li>
                         {% else %}

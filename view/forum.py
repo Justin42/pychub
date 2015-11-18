@@ -13,10 +13,10 @@ def index(request):
 @view_config(route_name='forum_category', renderer='forum/category.jinja2')
 def category_view(request): # TODO Paginate topics
     try:
-        category = Category.objects.get(name=request.matchdict['category'])
+        category = Category.objects.get(name=request.matchdict['category_name'])
     except DoesNotExist:
         try:
-            category = Category.objects.get(link_alias=request.matchdict['category'])
+            category = Category.objects.get(link_alias=request.matchdict['category_name'])
         except DoesNotExist:
             request.session.flash("Invalid category.")
             return HTTPFound(location=request.route_url('forum'))
@@ -26,11 +26,8 @@ def category_view(request): # TODO Paginate topics
 
 @view_config(route_name='forum_topic', renderer='forum/topic.jinja2')
 def topic_view(request):
-    posts_per_page = 20 # TODO Posts per page should probably be configurable
-    if not request.matchdict['page']:
-        page = 1
-    else:
-        page = request.matchdict['page']
+    posts_per_page = 20  # TODO Posts per page should probably be configurable
+    page = int(request.matchdict['page'])
     start = (page-1) * posts_per_page
     end = posts_per_page * page
 
