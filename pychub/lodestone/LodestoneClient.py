@@ -13,7 +13,7 @@ class LodestoneClient:
 
     def __init__(self):
         self.config = ConfigParser()
-        self.config.read('config/config.ini')
+        self.config.read('../config/config.ini')
         self.config = self.config['lodestoneClient']
         self.lodestoneUrl = self.config['lodestoneUrl']
         print("Created new lodestone client instance")
