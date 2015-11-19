@@ -1,7 +1,7 @@
 from pyramid.httpexceptions import HTTPFound
 from pyramid.view import view_config
 
-from exceptions import CharacterAlreadyLinked, CharacterNotFound
+from pychub.exceptions import CharacterAlreadyLinked, CharacterNotFound
 
 
 @view_config(route_name='account', renderer='account/index.jinja2', permission='member')
