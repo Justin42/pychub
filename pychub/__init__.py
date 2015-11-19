@@ -7,12 +7,11 @@ from pyramid.config import Configurator
 from pyramid.events import subscriber, BeforeRender
 from pyramid.session import SignedCookieSessionFactory
 
-import request_methods
-from lodestone.LodestoneClient import LodestoneClient
-from model.FreeCompany import FreeCompany
-from model.User import Character
-from security import get_groups
-from util import gen_random, lodestone
+from . import request_methods
+from .model.FreeCompany import FreeCompany
+from .model.User import Character
+from .security import get_groups
+from .util import gen_random, lodestone
 import mongoengine as mongo
 
 renderer_globals = {}

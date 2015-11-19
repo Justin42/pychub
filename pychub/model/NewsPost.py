@@ -1,6 +1,6 @@
 from datetime import datetime
 from mongoengine import *
-from model.User import User
+from .User import User
 
 
 class NewsPost(Document):

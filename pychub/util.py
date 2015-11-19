@@ -1,7 +1,7 @@
 import random
 import string
 
-from lodestone.LodestoneClient import LodestoneClient
+from .lodestone.LodestoneClient import LodestoneClient
 
 
 def gen_random(length):

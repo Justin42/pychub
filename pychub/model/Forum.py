@@ -3,7 +3,7 @@ from datetime import datetime
 from mongoengine import Document, StringField, DateTimeField, ReferenceField, EmbeddedDocument, SortedListField, \
     EmbeddedDocumentField
 
-from model.User import User
+from .User import User
 
 
 class Category(Document):
