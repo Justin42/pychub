@@ -2,9 +2,9 @@ from datetime import datetime
 
 from mongoengine import connect
 
-from model.Forum import Category, Topic, Post
-from model.NewsPost import NewsPost
-from model.User import User, Character
+from pychub.model.Forum import Category, Topic, Post
+from pychub.model.NewsPost import NewsPost
+from pychub.model.User import User, Character
 
 
 def init_test_db():
