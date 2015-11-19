@@ -13,7 +13,7 @@ requires = [
     'pyramid_debugtoolbar',
     'pyramid_tm',
     'transaction',
-    'waitress', 'mongoengine', 'bcrypt'
+    'waitress', 'mongoengine', 'bcrypt', 'beautifulsoup4'
     ]
 
 setup(name='PyChub',
