@@ -1,6 +1,6 @@
 import unittest
 
-from exceptions import InvalidLinkCode
+from pychub.exceptions import InvalidLinkCode
 from pychub.lodestone.LodestoneClient import LodestoneClient
 from pychub.model.FreeCompany import FreeCompany, FreeCompanyEstate
 import datetime
