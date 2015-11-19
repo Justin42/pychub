@@ -3,7 +3,7 @@ from pyramid.httpexceptions import HTTPFound
 from pyramid.security import remember
 from pyramid.view import view_config
 
-from pychub.model.User import User
+from ..model.User import User
 
 
 @view_config(route_name='login', renderer='login.jinja2')

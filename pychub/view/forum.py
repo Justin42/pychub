@@ -2,7 +2,7 @@ from mongoengine import DoesNotExist
 from pyramid.httpexceptions import HTTPFound
 from pyramid.view import view_config
 
-from model.Forum import Category, Topic
+from ..model.Forum import Category, Topic
 
 
 @view_config(route_name='forum', renderer='forum/index.jinja2')

@@ -1,11 +1,11 @@
 import unittest
 
-from pychub.exceptions import InvalidLinkCode
-from pychub.lodestone.LodestoneClient import LodestoneClient
-from pychub.model.FreeCompany import FreeCompany, FreeCompanyEstate
+from ..exceptions import InvalidLinkCode
+from ..lodestone.LodestoneClient import LodestoneClient
+from ..model.FreeCompany import FreeCompany, FreeCompanyEstate
 import datetime
 from mongoengine import *
-from pychub.model.User import User, Character
+from ..model.User import User, Character
 
 
 class DatabaseTest(unittest.TestCase):

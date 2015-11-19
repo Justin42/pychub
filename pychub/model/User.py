@@ -3,10 +3,10 @@ import warnings
 from bcrypt import hashpw, gensalt
 from mongoengine import *
 
-from pychub.exceptions import CharacterNotFound, CharacterAlreadyLinked, InvalidLinkCode
+from ..exceptions import CharacterNotFound, CharacterAlreadyLinked, InvalidLinkCode
 from .FreeCompany import FreeCompany
 from .common import classes, servers, genders, grand_companies, races, groups
-from pychub.util import gen_random, lodestone
+from ..util import gen_random, lodestone
 
 
 class ClassData(EmbeddedDocument):

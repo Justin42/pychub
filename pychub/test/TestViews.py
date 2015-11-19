@@ -1,7 +1,7 @@
 import unittest
 from mongoengine import connect
-from pychub.model.User import User
-from pychub.view import auth
+from ..model.User import User
+from ..view import auth
 from pyramid import testing
 
 

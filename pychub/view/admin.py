@@ -1,8 +1,8 @@
 from pyramid.httpexceptions import HTTPNotFound, HTTPFound
 from pyramid.view import view_config
 
-from pychub.model.NewsPost import NewsPost
-from pychub.model.User import User
+from ..model.NewsPost import NewsPost
+from ..model.User import User
 
 models = {'User': User, 'NewsPost': NewsPost}
 actions = ['view', 'edit', 'add', 'delete']
