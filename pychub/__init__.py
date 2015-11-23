@@ -8,8 +8,8 @@ from pyramid.events import subscriber, BeforeRender
 from pyramid.session import SignedCookieSessionFactory
 
 from . import request_methods
-from .model.FreeCompany import FreeCompany
-from .model.User import Character
+from .model.free_company import FreeCompany
+from .model.user import Character
 from .security import get_groups
 from .util import gen_random, lodestone
 import mongoengine as mongo

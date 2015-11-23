@@ -3,8 +3,8 @@ from datetime import datetime
 from mongoengine import DoesNotExist
 from pyramid.httpexceptions import HTTPNotFound, HTTPFound
 from pyramid.view import view_config
-from ..model.User import User, Character
-from ..model.NewsPost import NewsPost
+from ..model.user import User, Character
+from ..model.news_post import NewsPost
 
 
 @view_config(route_name='home', renderer='home.jinja2')

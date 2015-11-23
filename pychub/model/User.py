@@ -4,7 +4,7 @@ from bcrypt import hashpw, gensalt
 from mongoengine import *
 
 from ..exceptions import CharacterNotFound, CharacterAlreadyLinked, InvalidLinkCode
-from .FreeCompany import FreeCompany
+from .free_company import FreeCompany
 from .common import classes, servers, genders, grand_companies, races, groups
 from ..util import gen_random, lodestone
 

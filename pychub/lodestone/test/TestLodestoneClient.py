@@ -2,7 +2,7 @@ from pprint import pprint
 import unittest
 from datetime import datetime
 
-from pychub.lodestone.LodestoneClient import LodestoneClient
+from pychub.lodestone.client import LodestoneClient
 
 
 class LodestoneClientTest(unittest.TestCase):

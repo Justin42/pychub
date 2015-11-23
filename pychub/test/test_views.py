@@ -1,6 +1,6 @@
 import unittest
 from mongoengine import connect
-from ..model.User import User
+from ..model.user import User
 from ..view import auth
 from pyramid import testing
 

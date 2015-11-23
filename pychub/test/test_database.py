@@ -1,11 +1,11 @@
 import unittest
 
 from ..exceptions import InvalidLinkCode
-from ..lodestone.LodestoneClient import LodestoneClient
-from ..model.FreeCompany import FreeCompany, FreeCompanyEstate
+from ..lodestone.client import LodestoneClient
+from ..model.free_company import FreeCompany, FreeCompanyEstate
 import datetime
 from mongoengine import *
-from ..model.User import User, Character
+from ..model.user import User, Character
 
 
 class DatabaseTest(unittest.TestCase):

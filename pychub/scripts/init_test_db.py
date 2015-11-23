@@ -2,9 +2,9 @@ from datetime import datetime
 
 from mongoengine import connect
 
-from ..model.Forum import Category, Topic, Post
-from ..model.NewsPost import NewsPost
-from ..model.User import User, Character
+from ..model.forum import Category, Topic, Post
+from ..model.news_post import NewsPost
+from ..model.user import User, Character
 
 
 def init_test_db():

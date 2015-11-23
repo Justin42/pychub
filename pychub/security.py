@@ -1,6 +1,6 @@
 from mongoengine import DoesNotExist
 from pyramid.security import ALL_PERMISSIONS, Allow
-from .model.User import User
+from .model.user import User
 
 
 def get_groups(username, request):

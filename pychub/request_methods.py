@@ -1,5 +1,5 @@
 from mongoengine import DoesNotExist
-from .model.User import User
+from .model.user import User
 
 
 def get_user(request):
