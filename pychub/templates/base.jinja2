@@ -13,7 +13,7 @@
         <title>{% block title %}{{ free_company.name }}{% endblock %}</title>
         {% endblock %}
     </head>
-    <body>
+    <body style="background-image: url({{ request.static_url('pychub:static/images/background.jpg') }})">
         <div class="container">
             <div class="row">
                 <div class="twelve columns">
@@ -27,7 +27,11 @@
                             <li><a href="{{ request.route_url('home') }}">Home</a></li>
                             <li><a href="#">Schedule</a></li>
                             <li><a href="{{ request.route_url('members') }}">Members</a></li>
-                            <li><a href="{{ request.route_url('forum') }}">Forums</a></li>
+                            <li>Social<ul>
+                                <li><a href="{{ request.route_url('forum') }}">Forums</a></li>
+                                <li>Discord</li>
+                            </ul>
+                            </li>
                         {% if request.is_logged_in %}
                             <li><a href="{{ request.route_url('account') }}">Account</a></li>
                         {% else %}

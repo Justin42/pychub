@@ -2,7 +2,7 @@
 {% block content %}
     <div class="row">
         <div class="eight columns offset-by-two">
-            <ul id="news-list">
+            <ul id="category-list">
                 <li>
                 {% for category in categories %}
                     <div class="category">
@@ -15,7 +15,6 @@
                             {% endif %}
                             </span>
                         </div>
-                        <span class="category-description">{{ category.description }}</span>
                     </div>
                 {% endfor %}
                 </li>
