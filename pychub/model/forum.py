@@ -11,6 +11,32 @@ class Category(Document):
     link_alias = StringField(unique=True)
     description = StringField()
 
+    @property
+    def last_topic(self):
+        try:
+            return Topic.objects(category=self).order_by('-last_post_date')[0]
+        except IndexError:
+            return None
+
+    @property
+    def last_post(self):
+        last_topic = self.last_topic
+        if last_topic:
+            return last_topic.posts[0]
+        else:
+            return None
+
+    @property
+    def topic_count(self):
+        return len(Topic.objects(category=self))
+
+    @property
+    def post_count(self):
+        count = 0
+        for topic in Topic.objects(category=self):
+            count += len(topic.posts)
+        return count
+
 
 class Post(EmbeddedDocument):
     user = ReferenceField(User)

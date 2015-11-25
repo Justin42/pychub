@@ -2,23 +2,42 @@
 {% block content %}
     <div class="row">
         <div class="eight columns offset-by-two">
-            <ul id="category-list">
-                <li>
+            <table class="category-list">
+                <thead>
+                    <tr>
+                        <th>Forum</th>
+                        <th>Topics</th>
+                        <th>Posts</th>
+                        <th>Last Post</th>
+                    </tr>
+                </thead>
+                <tbody>
                 {% for category in categories %}
-                    <div class="category">
-                        <div class="category-header">
-                            <span class="category-title">
-                            {% if category.link_alias %}
-                                <a href="{{ request.route_url('forum_category', category_name=category.link_alias) }}">{{ category.name }}</a>
-                            {% else %}
-                                <a href="{{ request.route_url('forum_category', category_name=category.name) }}">{{ category.name }}</a>
+                    <tr>
+                        <td>
+                        {% if category.link_alias %}
+                            <a href="{{ request.route_url('forum_category', category_name=category.link_alias) }}">{{ category.name }}</a>
+                        {% else %}
+                            <a href="{{ request.route_url('forum_category', category_name=category.name) }}">{{ category.name }}</a>
+                        {% endif %}
+                        </td>
+                        <td>
+                            {{ category.topic_count }}
+                        </td>
+                        <td>
+                            {{ category.post_count }}
+                        </td>
+                        <td>
+                            {% if category.last_topic %}
+                                <a href="{{ request.route_url('forum_topic', topic_id=category.last_topic.id, page=1) }}">{{ category.last_topic.name }}</a>: {{ category.last_post.content[:50] }}
+                            {% if category.last_post.content|length  > 50%}...{% endif %}<br/>
+                                on {{ category.last_post.post_date.strftime('%b %d, %I:%M%p') }}
                             {% endif %}
-                            </span>
-                        </div>
-                    </div>
+                        </td>
+                    </tr>
                 {% endfor %}
-                </li>
-            </ul>
+                </tbody>
+            </table>
         </div>
     </div>
 {% endblock %}
