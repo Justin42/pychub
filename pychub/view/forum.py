@@ -1,4 +1,4 @@
-from mongoengine import DoesNotExist
+from mongoengine import DoesNotExist, NotUniqueError
 from pyramid.httpexceptions import HTTPFound
 from pyramid.view import view_config
 
@@ -38,3 +38,23 @@ def topic_view(request):
         request.session.flash("Invalid topic ID")
         return HTTPFound(location=request.route_url('forum'))
     return {'posts': posts, 'topic': topic}
+
+
+@view_config(route_name='forum_add_category', renderer='forum/add_category.jinja2', permission='forum_add_category')
+def add_category(request):
+    if 'name' in request.POST:
+        try:
+            category = Category()
+            category.name = request.POST['name'].strip()
+            if 'alias' in request.POST:
+                category.link_alias = request.POST['alias'].strip()
+            if 'description' in request.POST:
+                category.description = request.POST['description'].strip()
+            category.save()
+            return HTTPFound(location=request.route_url('forum'))
+        except NotUniqueError as ex:
+            request.session.flash('A category with that name or alias already exists')
+            print(ex)
+            return {}
+    else:
+        return {}

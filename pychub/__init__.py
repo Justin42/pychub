@@ -63,6 +63,7 @@ def main(global_config, **settings):
     config.add_route('session', '/session')
     config.add_route('members', '/members')
     config.add_route('character', '/character/{id}')
+    config.add_route('discord', '/discord')
 
     # Account
     config.add_route('login', '/login')
@@ -74,6 +75,7 @@ def main(global_config, **settings):
     config.add_route('forum', '/forum')
     config.add_route('forum_category', '/forum/{category_name}')
     config.add_route('forum_topic', '/forum/topic/{topic_id}/{page}')
+    config.add_route('forum_add_category', '/forum_add_category')
 
     # Admin routes
     config.add_route('post_news', '/post_news')

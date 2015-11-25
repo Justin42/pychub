@@ -41,6 +41,11 @@ def view_character(request):
     return {'character': character}
 
 
+@view_config(route_name='discord', renderer='discord.jinja2')
+def discord(request):
+    return {}
+
+
 @view_config(context=HTTPNotFound, renderer='error/not_found.jinja2')
 def not_found(request):
     request.response.status = 404

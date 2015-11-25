@@ -29,15 +29,19 @@
                         </td>
                         <td>
                             {% if category.last_topic %}
-                                <a href="{{ request.route_url('forum_topic', topic_id=category.last_topic.id, page=1) }}">{{ category.last_topic.name }}</a>: {{ category.last_post.content[:50] }}
-                            {% if category.last_post.content|length  > 50%}...{% endif %}<br/>
-                                on {{ category.last_post.post_date.strftime('%b %d, %I:%M%p') }}
+                                {% set last_post = category.last_post %}{% set last_topic = category.last_topic %}
+                                <a href="{{ request.route_url('forum_topic', topic_id=last_topic.id, page=1) }}">{{ last_topic.name }}</a>: {{ last_post.content[:50] }}
+                            {% if last_post.content|length  > 50%}...{% endif %}<br/>
+                                on {{ last_post.post_date.strftime('%b %d, %I:%M%p') }} by <i>{{ last_post.user.username }}</i>
                             {% endif %}
                         </td>
                     </tr>
                 {% endfor %}
                 </tbody>
             </table>
+            {% if request.has_permission('forum_add_category') %}
+                <span><a href="{{ request.route_url('forum_add_category') }}">Add Category</a></span>
+            {% endif %}
         </div>
     </div>
 {% endblock %}
