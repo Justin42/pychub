@@ -2,16 +2,13 @@
 {% block content %}
     <div class="row">
         <div class="eight columns offset-by-two">
-            <ul id="news-list">
-                <li>
+            <ul class="post-list">
+                <li class="shadow-box">
                 {% for post in posts %}
-                    <div class="post">
-                        <div class="post-header">
-                            <span class="post-user">{{ post.user.username }}</span>
-                            <span class="post-date">{{ post.post_date }}</span>
+                        <div class="post-content">{{ post.content }}</div>
+                        <div class="post-detail">
+                            {{ post.post_date.strftime('%b %d') }} at {{ post.post_date.strftime('%I:%M%p') }} by <i>{{ post.user.username }}</i>
                         </div>
-                        <span class="post-content">{{ post.content }}</span>
-                    </div>
                 {% endfor %}
                 </li>
             </ul>

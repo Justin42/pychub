@@ -6,7 +6,7 @@
             <ul class="topic-list">
                 <li>
                 {% for topic in topics %}
-                    <div class="topic">
+                    <div class="topic shadow-box">
                         <div class="topic-header">
                             <span class="topic-name">
                                 <a href="{{ request.route_url('forum_topic', topic_id=topic.id, page=1) }}">{{ topic.name[:100] }}</a>

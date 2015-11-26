@@ -10,6 +10,12 @@ div.container {
     border-radius: 10px;
 }
 
+.shadow-box {
+    background-color: rgba(255,255,255,0.8);
+    border-radius: 10px;
+    box-shadow: 0 0 5px 5px rgba(0,0,0,0.3);
+}
+
 span.center {
     display: block;
     text-align: center;
@@ -62,12 +68,6 @@ nav ul li a:hover, nav ul li ul a:hover {
 }
 
 /** Members **/
-table.member-list {
-    background-color: rgba(255,255,255,0.8);
-    box-shadow: 0 0 5px 5px rgba(0,0,0,0.3);
-    border-radius: 10px;
-}
-
 table.member-list td, th {
     border-bottom: 1px black solid;
 }
@@ -87,10 +87,6 @@ ul#news-list {
 }
 
 div.news-post {
-    display: block;
-    background-color: rgba(255,255,255,0.8);
-    box-shadow: 0 0 5px 5px rgba(0,0,0,0.3);
-    border-radius: 10px;
     margin-bottom: 2em;
 }
 div.news-post-header {
@@ -129,11 +125,6 @@ div.mini-right a {
 }
 
 /** Forums **/
-table.category-list {
-    background-color: rgba(255,255,255,0.8);
-    box-shadow: 0 0 5px 5px rgba(0,0,0,0.3);
-    border-radius: 10px;
-}
 table.category-list th {
     border-bottom: 0;
     border-top: 5px;
@@ -148,9 +139,6 @@ ul.topic-list {
     list-style: none;
 }
 div.topic {
-    background-color: rgba(255,255,255,0.8);
-    box-shadow: 0 0 5px 5px rgba(0,0,0,0.3);
-    border-radius: 10px;
     margin-bottom: 1em;
 }
 div.topic-header {
@@ -173,4 +161,12 @@ div.topic-category-name {
     font-weight: bold;
     font-size: larger;
     margin-bottom: 1em;
+}
+ul.post-list {
+    list-style-type: none;
+}
+div.post-content {
+    width: 100%;
+    padding-bottom: 0.5em;
+    border-bottom: 1px solid black;
 }
