@@ -40,7 +40,7 @@
                 </tbody>
             </table>
             {% if request.has_permission('forum_add_category') %}
-                <span><a href="{{ request.route_url('forum_add_category') }}">Add Category</a></span>
+                <span><a class="button button-primary" href="{{ request.route_url('forum_add_category') }}">Add Category</a></span>
             {% endif %}
         </div>
     </div>

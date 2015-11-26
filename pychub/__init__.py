@@ -73,9 +73,11 @@ def main(global_config, **settings):
 
     # Forum
     config.add_route('forum', '/forum')
-    config.add_route('forum_category', '/forum/{category_name}')
+    config.add_route('forum_category', '/forum/category/{category_name}')
     config.add_route('forum_topic', '/forum/topic/{topic_id}/{page}')
-    config.add_route('forum_add_category', '/forum_add_category')
+    config.add_route('forum_new_topic', '/forum/new_topic/{category_id}')
+    config.add_route('forum_add_category', '/forum/add_category')
+    config.add_route('forum_delete_topic', '/forum/delete_topic/{topic_id}')
 
     # Admin routes
     config.add_route('post_news', '/post_news')

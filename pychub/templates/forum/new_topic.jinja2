@@ -1,0 +1,27 @@
+{% extends "base.jinja2" %}
+{% block head %}
+    <!--suppress JSUnresolvedLibraryURL -->
+    <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="{{ request.static_url('pychub:static/js/jquery.wysibb.min.js') }}"></script>
+    <script src="{{ request.static_url('pychub:static/js/wysibb-settings.js') }}"></script>
+    <link rel="stylesheet" href="{{request.static_url('pychub:static/css/wbbtheme.css')}}"/>
+{% endblock %}
+{% block title %}{{ free_company.name }} Forums - New Topic{% endblock %}
+{% block content %}
+        <div class="row">
+        <div class="eight columns offset-by-two">
+            <div class="topic-category-name u-full-width">Posting new topic to {{ category.name }}</div>
+            <div class="full-width">
+                <form method="POST" id="new-topic">
+                    <label for="name">Title</label>
+                    <input type="text" name="name" class="u-full-width" maxlength="100"/>
+
+                    <label for="content">Content</label>
+                    <textarea id="editor" name="content" class="u-full-width" maxlength="5000"></textarea>
+
+                    <input class="button-primary" type="submit" value="Post"/>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

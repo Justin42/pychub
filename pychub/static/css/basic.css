@@ -15,6 +15,10 @@ span.center {
     text-align: center;
 }
 
+textarea#editor {
+    height: 30em;
+}
+
 /** Nav **/
 nav ul {
     list-style-type: none;
@@ -138,4 +142,35 @@ table.category-list a:link, a:visited {
     text-decoration: none;
     color: black;
     font-weight: bold;
+}
+
+ul.topic-list {
+    list-style: none;
+}
+div.topic {
+    background-color: rgba(255,255,255,0.8);
+    box-shadow: 0 0 5px 5px rgba(0,0,0,0.3);
+    border-radius: 10px;
+    margin-bottom: 1em;
+}
+div.topic-header {
+    border-bottom: 1px solid black;
+}
+span.topic-name a:link, span.topic-name a:visited {
+    text-decoration: none;
+    font-weight: bold;
+    color: black;
+}
+span.topic-reply-count {
+    width: 50%;
+    padding-right: 1em;
+    text-align: right;
+    display: inline-block;
+    float: right;
+}
+div.topic-category-name {
+    text-align: center;
+    font-weight: bold;
+    font-size: larger;
+    margin-bottom: 1em;
 }

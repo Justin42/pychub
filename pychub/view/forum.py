@@ -1,8 +1,10 @@
 from mongoengine import DoesNotExist, NotUniqueError
 from pyramid.httpexceptions import HTTPFound
 from pyramid.view import view_config
+from bs4 import BeautifulSoup
+import bbcode
 
-from ..model.forum import Category, Topic
+from ..model.forum import Category, Topic, Post
 
 
 @view_config(route_name='forum', renderer='forum/index.jinja2')
@@ -21,7 +23,7 @@ def category_view(request): # TODO Paginate topics
             request.session.flash("Invalid category.")
             return HTTPFound(location=request.route_url('forum'))
     topics = Topic.objects(category=category)
-    return {'topics': topics}
+    return {'topics': topics, 'category': category}
 
 
 @view_config(route_name='forum_topic', renderer='forum/topic.jinja2')
@@ -48,13 +50,35 @@ def add_category(request):
             category.name = request.POST['name'].strip()
             if 'alias' in request.POST:
                 category.link_alias = request.POST['alias'].strip()
+            else:
+                category.link_alias = category.name
             if 'description' in request.POST:
                 category.description = request.POST['description'].strip()
             category.save()
             return HTTPFound(location=request.route_url('forum'))
         except NotUniqueError as ex:
             request.session.flash('A category with that name or alias already exists')
-            print(ex)
             return {}
     else:
         return {}
+
+
+@view_config(route_name='forum_new_topic', renderer='forum/new_topic.jinja2', permission='forum_new_topic')
+def new_topic(request): # TODO configurable max chars for title and content
+    category = Category.objects.get(id=request.matchdict['category_id'])
+    if 'name' in request.POST and 'content' in request.POST:
+        content = BeautifulSoup(request.POST['content'][:5000], 'html.parser').get_text()  # Strip all HTML
+        content = bbcode.render_html(content)  # Convert remaining BBCode to HTML
+        topic = Topic(user=request.get_user, name=request.POST['name'][:100], category=category)
+        topic.posts.append(Post(user=request.get_user, content=content))
+        topic.save()
+        return HTTPFound(location=request.route_url('forum_topic', topic_id=topic.id, page=1))
+    return {'category': category}
+
+
+@view_config(route_name='forum_delete_topic', permission='forum_delete_topic')
+def delete_topic(request):
+    topic = Topic.objects.get(id=request.matchdict['topic_id'])
+    topic.delete()
+    request.session.flash("Topic deleted.")
+    return HTTPFound(location=request.route_url('forum_category', category_name=topic.category.name))
