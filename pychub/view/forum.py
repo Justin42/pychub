@@ -32,13 +32,18 @@ def topic_view(request):
     page = int(request.matchdict['page'])
     start = (page-1) * posts_per_page
     end = posts_per_page * page
-
     try:
         topic = Topic.objects.get(id=request.matchdict['topic_id'])
         posts = topic.posts[start:end]
     except DoesNotExist:
         request.session.flash("Invalid topic ID")
         return HTTPFound(location=request.route_url('forum'))
+    if 'content' in request.POST and request.has_permission('forum_post_reply'):
+        content = BeautifulSoup(request.POST['content'][:5000], 'html.parser').get_text()  # Strip all HTML
+        content = bbcode.render_html(content)  # Convert remaining BBCode to HTML
+        topic.update(push__posts=Post(user=request.get_user, content=content))
+        request.session.flash('New reply posted.')
+        return HTTPFound(location=request.route_url('forum_topic', page=page, topic_id=topic.id))
     return {'posts': posts, 'topic': topic, 'page': page}
 
 

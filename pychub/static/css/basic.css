@@ -30,7 +30,8 @@ span.center {
 }
 
 textarea#editor {
-    height: 30em;
+    height: 10em;
+    overflow-x: hidden;
 }
 
 /** Nav **/
@@ -187,12 +188,12 @@ div.post-content {
     padding-bottom: 0.5em;
     border-bottom: 1px solid black;
 }
-span.post-delete {
-    width: 100%;
+div.post-detail {
+    width: 70%;
     display: inline-block;
-    text-align: right;
 }
-span.post-delete a:link {
-    text-decoration: none;
-    color: black;
+div.post-delete {
+    display: inline-block;
+    margin-left: 20%;
+    text-align: right;
 }

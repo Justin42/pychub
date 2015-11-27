@@ -1,21 +1,35 @@
 {% extends "base.jinja2" %}
+{% block head %}
+    <!--suppress JSUnresolvedLibraryURL -->
+    <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="{{ request.static_url('pychub:static/js/jquery.wysibb.min.js') }}"></script>
+    <script src="{{ request.static_url('pychub:static/js/wysibb-settings.js') }}"></script>
+    <link rel="stylesheet" href="{{request.static_url('pychub:static/css/wbbtheme.css')}}"/>
+{% endblock %}
 {% block content %}
     <div class="row">
         <div class="eight columns offset-by-two">
             <div class="topic-category-name u-full-width">{{ topic.category.name }}<br/>{{ topic.name }}</div>
             <ul class="post-list">
-                <li class="shadow-box">
                 {% for post in posts %}
+                <li class="shadow-box">
                         <div class="post-content">{{ post.content|safe }}</div>
                         <div class="post-detail">
                             {{ post.post_date.strftime('%b %d') }} at {{ post.post_date.strftime('%I:%M%p') }} by <i>{{ post.user.username }}</i>
-                        {% if request.has_permission('forum_delete_post') %}
-                            <span class="post-delete link-style-rollover"><a href="{{ request.route_url('forum_delete_post', topic_id=topic.id, post_id=post.id) }}">Delete</a></span>
-                        {% endif %}
                         </div>
-                {% endfor %}
+                        {% if request.has_permission('forum_delete_post') %}
+                            <div class="post-delete link-style-rollover"><a href="{{ request.route_url('forum_delete_post', topic_id=topic.id, post_id=post.id) }}">Delete</a></div>
+                        {% endif %}
                 </li>
+                {% endfor %}
             </ul>
+        {% if request.has_permission('forum_post_reply') %}
+            <form method="POST" id="new-topic">
+                <label for="content">New Post:</label>
+                <textarea id="editor" name="content" class="u-full-width" maxlength="5000"></textarea><br/>
+                <input class="button-primary" type="submit" value="Post"/>
+            </form>
+        {% endif %}
         </div>
     </div>
 {% endblock %}
