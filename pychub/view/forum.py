@@ -42,9 +42,7 @@ def topic_view(request):
         content = BeautifulSoup(request.POST['content'][:5000], 'html.parser').get_text()  # Strip all HTML
         content = bbcode.render_html(content)  # Convert remaining BBCode to HTML
         post = Post(user=request.get_user, content=content)
-        topic.update(push__posts=post)
-        topic.last_post_date = post.post_date
-        topic.save()
+        topic.update(push__posts=post, last_post_date=post.post_date)
         request.session.flash('New reply posted.')
         return HTTPFound(location=request.route_url('forum_topic', page=page, topic_id=topic.id))
     return {'posts': posts, 'topic': topic, 'page': page}
@@ -81,8 +79,8 @@ def new_topic(request):  # TODO configurable max chars for title and content
         print('Post HTML:', content)
         topic = Topic(user=request.get_user, name=request.POST['name'][:100], category=category)
         post = Post(user=request.get_user, content=content)
-        topic.posts.append(post)
         topic.last_post_date = post.post_date
+        topic.posts.append(post)
         topic.save()
         return HTTPFound(location=request.route_url('forum_topic', topic_id=topic.id, page=1))
     return {'category': category}
