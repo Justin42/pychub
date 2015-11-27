@@ -20,7 +20,7 @@
                     <td>
                         <span class="topic-name">
                             <a href="{{ request.route_url('forum_topic', topic_id=topic.id, page=1) }}">{{ topic.name[:100] }}</a>
-                        </span>
+                        </span><br/>
                     </td>
 
                     <td>
@@ -34,7 +34,11 @@
                     </td>
 
                     <td class="text-nowrap">
-                            {{ last_post.post_date.strftime('%b %d, %I:%M%p') }}<br/>
+                            {{ last_post.post_date.strftime('%b %d, %I:%M%p') }}
+                        {% if request.has_permission('forum_delete_topic') %}
+                            <span class="link-style-danger"><a href="{{ request.route_url('forum_delete_topic', topic_id=topic.id) }}">X</a></span>
+                        {% endif %}
+                        <br/>
                             by {{ last_post.user.username }}
                     </td>
                 </tr>
