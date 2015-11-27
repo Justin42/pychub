@@ -152,7 +152,6 @@ table.category-list td {
     border-bottom: 1px solid black;
     border-collapse: collapse;
 }
-
 ul.topic-list {
     list-style: none;
 }
@@ -163,8 +162,8 @@ div.topic-header {
     border-bottom: 1px solid black;
 }
 span.topic-name a:link, span.topic-name a:visited {
-    text-decoration: none;
     font-weight: bold;
+    font-size: larger;
     color: black;
 }
 span.topic-reply-count {
