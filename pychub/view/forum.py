@@ -64,11 +64,13 @@ def add_category(request):
 
 
 @view_config(route_name='forum_new_topic', renderer='forum/new_topic.jinja2', permission='forum_new_topic')
-def new_topic(request): # TODO configurable max chars for title and content
+def new_topic(request):  # TODO configurable max chars for title and content
     category = Category.objects.get(id=request.matchdict['category_id'])
     if 'name' in request.POST and 'content' in request.POST:
         content = BeautifulSoup(request.POST['content'][:5000], 'html.parser').get_text()  # Strip all HTML
+        print('Post text:', content)
         content = bbcode.render_html(content)  # Convert remaining BBCode to HTML
+        print('Post HTML:', content)
         topic = Topic(user=request.get_user, name=request.POST['name'][:100], category=category)
         topic.posts.append(Post(user=request.get_user, content=content))
         topic.save()

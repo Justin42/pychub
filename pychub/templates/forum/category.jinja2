@@ -23,7 +23,7 @@
                         {% endif %}
                         {% if topic.posts|length > 1 %}
                             {% set last_post = topic.posts[-1] %}
-                        <span class="topic-last-post"><b>Last Post:</b> {{ last_post.content }} by {{ last_post.user.username }} on {{ last_post.post_date.strftime('%b %d, %I:%M%p') }}</span>
+                        <span class="topic-last-post"><b>Last Post:</b> {{ last_post.content|safe }} by {{ last_post.user.username }} on {{ last_post.post_date.strftime('%b %d, %I:%M%p') }}</span>
                         {% else %}
                             <span class="topic-last-post">No replies.</span>
                         {% endif %}

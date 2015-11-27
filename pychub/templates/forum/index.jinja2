@@ -30,7 +30,7 @@
                         <td>
                             {% if category.last_topic and category.last_post %}
                                 {% set last_post = category.last_post %}{% set last_topic = category.last_topic %}
-                                <a href="{{ request.route_url('forum_topic', topic_id=last_topic.id, page=1) }}">{{ last_topic.name }}</a>: {{ last_post.content[:50] }}
+                                <a href="{{ request.route_url('forum_topic', topic_id=last_topic.id, page=1) }}">{{ last_topic.name }}</a>: {{ last_post.content[:50]|safe }}
                             {% if last_post.content|length  > 50%}...{% endif %}<br/>
                                 on {{ last_post.post_date.strftime('%b %d, %I:%M%p') }} by <i>{{ last_post.user.username }}</i>
                             {% endif %}

@@ -6,7 +6,7 @@
             <ul class="post-list">
                 <li class="shadow-box">
                 {% for post in posts %}
-                        <div class="post-content">{{ post.content }}</div>
+                        <div class="post-content">{{ post.content|safe }}</div>
                         <div class="post-detail">
                             {{ post.post_date.strftime('%b %d') }} at {{ post.post_date.strftime('%I:%M%p') }} by <i>{{ post.user.username }}</i>
                         {% if request.has_permission('forum_delete_post') %}
