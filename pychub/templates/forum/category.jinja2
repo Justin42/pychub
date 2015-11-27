@@ -28,7 +28,7 @@
                             <span class="topic-last-post">No replies.</span>
                         {% endif %}
                         {% if request.has_permission('forum_delete_topic') %}
-                            <br/><span class="topic-delete"><a href="{{ request.route_url('forum_delete_topic', topic_id=topic.id) }}">Delete Topic</a></span>
+                            <br/><span class="topic-delete link-style-rollover"><a href="{{ request.route_url('forum_delete_topic', topic_id=topic.id) }}">Delete Topic</a></span>
                         {% endif %}
                     </div>
                 {% endfor %}

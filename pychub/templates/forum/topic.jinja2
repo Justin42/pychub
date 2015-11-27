@@ -10,7 +10,7 @@
                         <div class="post-detail">
                             {{ post.post_date.strftime('%b %d') }} at {{ post.post_date.strftime('%I:%M%p') }} by <i>{{ post.user.username }}</i>
                         {% if request.has_permission('forum_delete_post') %}
-                            <span class="post-delete"><a href="{{ request.route_url('forum_delete_post', topic_id=topic.id, post_id=post.id) }}">Delete</a></span>
+                            <span class="post-delete link-style-rollover"><a href="{{ request.route_url('forum_delete_post', topic_id=topic.id, post_id=post.id) }}">Delete</a></span>
                         {% endif %}
                         </div>
                 {% endfor %}
