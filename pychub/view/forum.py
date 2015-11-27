@@ -22,7 +22,7 @@ def category_view(request): # TODO Paginate topics
         except DoesNotExist:
             request.session.flash("Invalid category.")
             return HTTPFound(location=request.route_url('forum'))
-    topics = Topic.objects(category=category)
+    topics = Topic.objects(category=category).order_by('last_post_date')
     return {'topics': topics, 'category': category}
 
 
