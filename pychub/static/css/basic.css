@@ -195,8 +195,10 @@ span.post-detail {
     font-style: italic;
     font-weight: lighter;
     padding-left: 50%;
+    text-align: right;
 }
 span.post-delete {
     display: inline-block;
+    padding-left: 0.5em;
     text-align: right;
 }
