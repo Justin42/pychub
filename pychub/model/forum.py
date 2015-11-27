@@ -1,8 +1,8 @@
 from datetime import datetime
 
+from bson import ObjectId
 from mongoengine import Document, StringField, DateTimeField, ReferenceField, EmbeddedDocument, SortedListField, \
-    EmbeddedDocumentField
-
+    EmbeddedDocumentField, ObjectIdField
 from .user import User
 
 
@@ -21,7 +21,7 @@ class Category(Document):
     @property
     def last_post(self):
         last_topic = self.last_topic
-        if last_topic:
+        if last_topic and len(last_topic.posts) > 0:
             return last_topic.posts[0]
         else:
             return None
@@ -39,6 +39,7 @@ class Category(Document):
 
 
 class Post(EmbeddedDocument):
+    id = ObjectIdField(primary_key=True, unique=True, required=True, default=ObjectId)
     user = ReferenceField(User)
     content = StringField()
     post_date = DateTimeField(default=datetime.now())

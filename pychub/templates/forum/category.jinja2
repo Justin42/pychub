@@ -12,9 +12,15 @@
                                 <a href="{{ request.route_url('forum_topic', topic_id=topic.id, page=1) }}">{{ topic.name[:100] }}</a>
                             </span><br/>
                             <span>Started on {{ topic.creation_date.strftime('%b %d') }} at {{ topic.creation_date.strftime('%I:%M%p') }} by <i>{{ topic.user.username }}</i></span>
-                            <span class="topic-reply-count"><b>Replies:</b> {{ topic.posts|length - 1 }}</span>
+                            <span class="topic-reply-count"><b>Replies:</b>
+                                {% if topic.posts|length > 0 %} {{ topic.posts|length -1 }}
+                                {% else %}0
+                                {% endif %}
+                            </span>
                         </div>
+                        {% if topic.posts|length > 1 %}
                         <span class="topic-description">{{ topic.posts[0].content[:50] }}</span><br/>
+                        {% endif %}
                         {% if topic.posts|length > 1 %}
                             {% set last_post = topic.posts[-1] %}
                         <span class="topic-last-post"><b>Last Post:</b> {{ last_post.content }} by {{ last_post.user.username }} on {{ last_post.post_date.strftime('%b %d, %I:%M%p') }}</span>

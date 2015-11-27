@@ -78,6 +78,7 @@ def main(global_config, **settings):
     config.add_route('forum_new_topic', '/forum/new_topic/{category_id}')
     config.add_route('forum_add_category', '/forum/add_category')
     config.add_route('forum_delete_topic', '/forum/delete_topic/{topic_id}')
+    config.add_route('forum_delete_post', '/forum/delete_post/{topic_id}/{post_id}')
 
     # Admin routes
     config.add_route('post_news', '/post_news')

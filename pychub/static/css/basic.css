@@ -68,6 +68,9 @@ nav ul li a:hover, nav ul li ul a:hover {
 }
 
 /** Members **/
+table.member-list {
+    border-collapse: collapse;
+}
 table.member-list td, th {
     border-bottom: 1px black solid;
 }
@@ -125,14 +128,20 @@ div.mini-right a {
 }
 
 /** Forums **/
+table.category-list {
+    border-collapse: collapse;
+}
 table.category-list th {
-    border-bottom: 0;
-    border-top: 5px;
+    border-bottom: 3px solid black;
 }
 table.category-list a:link, a:visited {
     text-decoration: none;
     color: black;
     font-weight: bold;
+}
+table.category-list td {
+    border-bottom: 1px solid black;
+    border-collapse: collapse;
 }
 
 ul.topic-list {

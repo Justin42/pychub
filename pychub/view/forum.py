@@ -39,7 +39,7 @@ def topic_view(request):
     except DoesNotExist:
         request.session.flash("Invalid topic ID")
         return HTTPFound(location=request.route_url('forum'))
-    return {'posts': posts, 'topic': topic}
+    return {'posts': posts, 'topic': topic, 'page': page}
 
 
 @view_config(route_name='forum_add_category', renderer='forum/add_category.jinja2', permission='forum_add_category')
@@ -82,3 +82,10 @@ def delete_topic(request):
     topic.delete()
     request.session.flash("Topic deleted.")
     return HTTPFound(location=request.route_url('forum_category', category_name=topic.category.name))
+
+
+@view_config(route_name='forum_delete_post', permission='forum_delete_post')
+def delete_post(request):
+    topic = Topic.objects.get(id=request.matchdict['topic_id'])
+    topic.update(pull__posts__id=request.matchdict['post_id'])
+    return HTTPFound(location=request.route_url('forum_topic', topic_id=topic.id, page=1))
