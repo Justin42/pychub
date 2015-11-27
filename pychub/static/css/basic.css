@@ -24,6 +24,13 @@ div.container {
     background-color: gray;
 }
 
+div.content-title {
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+    font-size: larger;
+}
+
 span.center {
     display: block;
     text-align: center;
@@ -174,10 +181,12 @@ span.topic-reply-count {
     float: right;
 }
 div.topic-category-name {
-    text-align: center;
+    text-align: left;
     font-weight: bold;
-    font-size: larger;
     margin-bottom: 1em;
+}
+div.topic-category-name a {
+    text-decoration: none;
 }
 ul.post-list {
     list-style-type: none;

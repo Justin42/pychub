@@ -45,7 +45,7 @@ def topic_view(request):
         topic.update(push__posts=post, last_post_date=post.post_date)
         request.session.flash('New reply posted.')
         return HTTPFound(location=request.route_url('forum_topic', page=page, topic_id=topic.id))
-    return {'posts': posts, 'topic': topic, 'page': page}
+    return {'posts': posts, 'topic': topic, 'page': page, 'category': topic.category}
 
 
 @view_config(route_name='forum_add_category', renderer='forum/add_category.jinja2', permission='forum_add_category')
