@@ -22,7 +22,7 @@ def category_view(request): # TODO Paginate topics
         except DoesNotExist:
             request.session.flash("Invalid category.")
             return HTTPFound(location=request.route_url('forum'))
-    topics = Topic.objects(category=category).order_by('last_post_date')
+    topics = Topic.objects(category=category).order_by('-last_post_date')
     return {'topics': topics, 'category': category}
 
 
@@ -41,7 +41,10 @@ def topic_view(request):
     if 'content' in request.POST and request.has_permission('forum_post_reply'):
         content = BeautifulSoup(request.POST['content'][:5000], 'html.parser').get_text()  # Strip all HTML
         content = bbcode.render_html(content)  # Convert remaining BBCode to HTML
-        topic.update(push__posts=Post(user=request.get_user, content=content))
+        post = Post(user=request.get_user, content=content)
+        topic.update(push__posts=post)
+        topic.last_post_date = post.post_date
+        topic.save()
         request.session.flash('New reply posted.')
         return HTTPFound(location=request.route_url('forum_topic', page=page, topic_id=topic.id))
     return {'posts': posts, 'topic': topic, 'page': page}
@@ -77,7 +80,9 @@ def new_topic(request):  # TODO configurable max chars for title and content
         content = bbcode.render_html(content)  # Convert remaining BBCode to HTML
         print('Post HTML:', content)
         topic = Topic(user=request.get_user, name=request.POST['name'][:100], category=category)
-        topic.posts.append(Post(user=request.get_user, content=content))
+        post = Post(user=request.get_user, content=content)
+        topic.posts.append(post)
+        topic.last_post_date = post.post_date
         topic.save()
         return HTTPFound(location=request.route_url('forum_topic', topic_id=topic.id, page=1))
     return {'category': category}

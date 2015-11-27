@@ -14,7 +14,7 @@ class Category(Document):
     @property
     def last_topic(self):
         try:
-            return Topic.objects(category=self).order_by('last_post_date')[0]
+            return Topic.objects(category=self).order_by('-last_post_date')[0]
         except IndexError:
             return None
 
