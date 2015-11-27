@@ -22,7 +22,7 @@ class Category(Document):
     def last_post(self):
         last_topic = self.last_topic
         if last_topic and len(last_topic.posts) > 0:
-            return last_topic.posts[0]
+            return last_topic.posts[-1]
         else:
             return None
 
