@@ -42,13 +42,13 @@ class Post(EmbeddedDocument):
     id = ObjectIdField(primary_key=True, unique=True, required=True, default=ObjectId)
     user = ReferenceField(User)
     content = StringField()
-    post_date = DateTimeField(default=datetime.now())
+    post_date = DateTimeField(default=datetime.now)
 
 
 class Topic(Document):  # TODO Add indexes
     name = StringField(required=True)
     category = ReferenceField(Category)
     user = ReferenceField(User)
-    creation_date = DateTimeField(default=datetime.now())
+    creation_date = DateTimeField(default=datetime.now)
     last_post_date = DateTimeField()
     posts = SortedListField(EmbeddedDocumentField(Post), ordering="post_date", reverse=True)
