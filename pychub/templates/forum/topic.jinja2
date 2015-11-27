@@ -13,12 +13,14 @@
             <ul class="post-list">
                 {% for post in posts %}
                 <li class="shadow-box">
+                        <span class="post-user">{{ post.user.username }}</span>:
                         <div class="post-content">{{ post.content|safe }}</div>
-                        <div class="post-detail">
-                            {{ post.post_date.strftime('%b %d') }} at {{ post.post_date.strftime('%I:%M%p') }} by <i>{{ post.user.username }}</i>
-                        </div>
+                        <span class="post-detail">
+                            on {{ post.post_date.strftime('%b %d') }} at {{ post.post_date.strftime('%I:%M%p') }}
+                        </span>
+
                         {% if request.has_permission('forum_delete_post') %}
-                            <div class="post-delete link-style-rollover"><a href="{{ request.route_url('forum_delete_post', topic_id=topic.id, post_id=post.id) }}">Delete</a></div>
+                            <span class="post-delete link-style-rollover"><a href="{{ request.route_url('forum_delete_post', topic_id=topic.id, post_id=post.id) }}">Delete</a></span>
                         {% endif %}
                 </li>
                 {% endfor %}
