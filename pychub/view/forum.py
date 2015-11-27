@@ -74,9 +74,7 @@ def new_topic(request):  # TODO configurable max chars for title and content
     category = Category.objects.get(id=request.matchdict['category_id'])
     if 'name' in request.POST and 'content' in request.POST:
         content = BeautifulSoup(request.POST['content'][:5000], 'html.parser').get_text()  # Strip all HTML
-        print('Post text:', content)
         content = bbcode.render_html(content)  # Convert remaining BBCode to HTML
-        print('Post HTML:', content)
         topic = Topic(user=request.get_user, name=request.POST['name'][:100], category=category)
         post = Post(user=request.get_user, content=content)
         topic.last_post_date = post.post_date
