@@ -18,8 +18,8 @@
                                 {% endif %}
                             </span>
                         </div>
-                        {% if topic.posts|length > 1 %}
-                        <span class="topic-description">{{ topic.posts[0].content[:50] }}</span><br/>
+                        {% if topic.posts|length > 0 %}
+                        <span class="topic-description">{{ topic.posts[0].content[:50]|safe }}</span><br/>
                         {% endif %}
                         {% if topic.posts|length > 1 %}
                             {% set last_post = topic.posts[-1] %}
