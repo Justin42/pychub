@@ -9,8 +9,8 @@
 {% block content %}
     <div class="row">
         <div class="eight columns offset-by-two">
-            <div class="content-title">{{ free_company.name }} Forums</div>
-            <div class="topic-category-name u-full-width"><a href="{{ request.route_url('forum_category', category_name=category.name) }}">{{ topic.category.name }}</a> > {{ topic.name }}</div>
+            <div class="content-title link-style-rollover"><a href="{{ request.route_url('forum') }}">{{ free_company.name }} Forums</a></div>
+            <div class="topic-category-name u-full-width link-style-rollover"><a href="{{ request.route_url('forum_category', category_name=category.link_alias) }}">{{ topic.category.name }}</a> > {{ topic.name }}</div>
             <ul class="post-list">
                 {% for post in posts %}
                 <li class="shadow-box">

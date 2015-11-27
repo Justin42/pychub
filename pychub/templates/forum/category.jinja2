@@ -2,12 +2,12 @@
 {% block content %}
     <div class="row">
         <div class="ten columns offset-by-one">
-            <div class="content-title">{{ free_company.name }} Forums</div>
+            <div class="content-title link-style-rollover"><a href="{{ request.route_url('forum') }}">{{ free_company.name }} Forums</a></div>
             <div class="topic-category-name u-full-width">{{ category.name }}</div>
             <table class="topic-list shadow-box link-style-rollover">
                 <thead>
                     <tr>
-                        <th>Topic</th>
+                        <th><span class="text-indent">Topic</span></th>
                         <th>Author</th>
                         <th>Replies</th>
                         <th>Last Post</th>
@@ -33,7 +33,7 @@
                         {% endif %}
                     </td>
 
-                    <td>
+                    <td class="no-wrap">
                         {{ last_post.post_date.strftime('%b %d, %I:%M%p') }}<br/>
                         {{ last_post.user.username }}
                     </td>
