@@ -10,8 +10,16 @@ div.container {
     border-radius: 10px;
 }
 
-.text-indent {
+.text-indent-left {
     padding-left: 1em;
+}
+
+.text-indent-right {
+    padding-right: 1em;
+}
+
+.text-nowrap {
+   white-space: nowrap;
 }
 
 .shadow-box {
@@ -19,13 +27,28 @@ div.container {
     border-radius: 10px;
     box-shadow: 0 0 5px 5px rgba(0,0,0,0.3);
 }
-.link-style-rollover a:link {
+.link-style-rollover a:link, a:visited {
     color: black;
     text-decoration: none;
     font-weight: bold;
 }
 .link-style-rollover a:hover {
     background-color: gray;
+}
+
+table {
+    border-collapse: collapse;
+    border: 0;
+}
+table th {
+    border-bottom: 3px solid black;
+    padding: 1em 2em 0.5em 1em;
+    text-align: left;
+}
+table td {
+    border-top: 1px solid black;
+    padding-left: 1em;
+    padding-right: 1em;
 }
 
 div.content-title {
@@ -88,23 +111,6 @@ nav ul li a:hover, nav ul li ul a:hover {
     color: black;
 }
 
-/** Members **/
-table.member-list {
-    border-collapse: collapse;
-}
-table.member-list td, th {
-    border-bottom: 1px black solid;
-}
-
-table.member-list tr td a{
-    display: block;
-    text-decoration: none;
-    color: black;
-}
-table.member-list tr td a:hover{
-    background-color: gray;
-}
-
 /** News **/
 ul#news-list {
     list-style-type: none;
@@ -153,40 +159,7 @@ div.topic-category-name {
     font-weight: bold;
     margin-bottom: 1em;
 }
-table.category-list {
-    border-collapse: collapse;
-}
-table.category-list th {
-    border-bottom: 3px solid black;
-    border-top: 0;
-}
-table.category-list a:link, a:visited {
-    text-decoration: none;
-    color: black;
-    font-weight: bold;
-}
-table.category-list td {
-    border-top: 1px solid black;
-    border-bottom: 0;
-    padding-left: 1em;
-}
 /** Topic listing **/
-table.topic-list {
-    text-align: center;
-    width: 100%;
-    border-collapse: collapse;
-}
-table.topic-list thead tr {
-    border-top: 0;
-    border-bottom: 3px solid black;
-}
-table.topic-list td {
-    border: 0;
-    padding-left: 1em;
-}
-table.topic-list tr {
-    border-top: 1px solid black;
-}
 
 ul.post-list {
     list-style-type: none;
