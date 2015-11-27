@@ -34,12 +34,18 @@
                     </td>
 
                     <td class="text-nowrap">
+                    {% if topic.posts|length > 0 %}
                             {{ last_post.post_date.strftime('%b %d, %I:%M%p') }}
+                    {% else %}
+                        No posts.
+                    {% endif %}
                         {% if request.has_permission('forum_delete_topic') %}
                             <span class="link-style-danger"><a href="{{ request.route_url('forum_delete_topic', topic_id=topic.id) }}">X</a></span>
                         {% endif %}
                         <br/>
+                    {% if topic.posts|length > 0 %}
                             by {{ last_post.user.username }}
+                    {% endif %}
                     </td>
                 </tr>
                 {% endfor %}
