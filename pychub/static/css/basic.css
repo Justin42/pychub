@@ -144,11 +144,16 @@ div.mini-right a {
 }
 
 /** Forums **/
+div.topic-category-name {
+    font-weight: bold;
+    margin-bottom: 1em;
+}
 table.category-list {
     border-collapse: collapse;
 }
 table.category-list th {
     border-bottom: 3px solid black;
+    border-top: 0;
 }
 table.category-list a:link, a:visited {
     text-decoration: none;
@@ -156,38 +161,26 @@ table.category-list a:link, a:visited {
     font-weight: bold;
 }
 table.category-list td {
-    border-bottom: 1px solid black;
+    border-top: 1px solid black;
+    border-bottom: 0;
+}
+/** Topic listing **/
+table.topic-list {
+    text-align: center;
+    width: 100%;
     border-collapse: collapse;
 }
-ul.topic-list {
-    list-style: none;
+table.topic-list thead tr {
+    border-top: 0;
+    border-bottom: 3px solid black;
 }
-div.topic {
-    margin-bottom: 1em;
+table.topic-list td {
+    border: 0;
 }
-div.topic-header {
-    border-bottom: 1px solid black;
+table.topic-list tr {
+    border-top: 1px solid black;
 }
-span.topic-name a:link, span.topic-name a:visited {
-    font-weight: bold;
-    font-size: larger;
-    color: black;
-}
-span.topic-reply-count {
-    width: 50%;
-    padding-right: 1em;
-    text-align: right;
-    display: inline-block;
-    float: right;
-}
-div.topic-category-name {
-    text-align: left;
-    font-weight: bold;
-    margin-bottom: 1em;
-}
-div.topic-category-name a {
-    text-decoration: none;
-}
+
 ul.post-list {
     list-style-type: none;
 }
