@@ -16,7 +16,7 @@ class RootFactory(object):
 
     __acl__ = [
         (Allow, 'admin', ALL_PERMISSIONS),
-        (Allow, 'member', 'member')
+        (Allow, 'member', ('member', 'forum_new_topic', 'forum_post_reply'))
     ]
 
     def __init__(self, request):
