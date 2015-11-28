@@ -2,25 +2,23 @@
 {% block content %}
     <div class="row">
         <div class="eight columns offset-by-two">
-        {% if request.has_permission('post_news') %}
-        <div class="mini-right"><a href="{{ request.route_url('post_news') }}">Post news</a></div>
-        {% endif %}
             <ul id="news-list">
                 <li>
                 {% for post in news %}
                     <div class="news-post shadow-box">
-                        <div class="news-post-header">
-                            <span class="news-post-title">{{ post.title }}</span>
-                        </div>
-                        <span class="news-post-body">{{ post.body }} - <span class="news-post-user">{{ post.user.username }}</span></span>
-                        <span class="news-post-date">{{ post.date.strftime('%B %d') }}</span>
+                        <div class="news-post-title">{{ post.title }}<span class="top-right-icon link-style-danger"><a href="{{ request.route_url('admin_delete_item', model='NewsPost', id=post.id) }}">X</a></span></div>
+                        <div class="news-post-body">{{ post.body }}</div>
+                        <div class="news-post-details">by {{ post.user.username }} on {{ post.date.strftime('%B %d') }}</div>
                     {% if request.has_permission('admin') %}
-                        <div class="mini-right"><a href="{{ request.route_url('admin_delete_item', model='NewsPost', id=post.id) }}">Delete</a></div>
+                        <div class="mini-right"></div>
                     {% endif %}
                     </div>
                 {% endfor %}
                 </li>
             </ul>
+        {% if request.has_permission('post_news') %}
+            <a class="button button-primary" href="{{ request.route_url('post_news') }}">Post news</a>
+        {% endif %}
         </div>
     </div>
 {% endblock %}
