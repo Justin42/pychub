@@ -53,7 +53,7 @@ table {
 }
 table th {
     border-bottom: 3px solid black;
-    padding: 1em 2em 0.5em 1em;
+    padding: 0.5em 1em 0.5em 1em;
     text-align: left;
 }
 table td {
