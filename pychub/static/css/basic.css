@@ -22,6 +22,10 @@ div.container {
    white-space: nowrap;
 }
 
+.text-right {
+    text-align: right;
+}
+
 .shadow-box {
     background-color: rgba(255,255,255,0.8);
     border-radius: 10px;

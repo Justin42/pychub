@@ -1,9 +1,9 @@
+import math
 from mongoengine import DoesNotExist, NotUniqueError
 from pyramid.httpexceptions import HTTPFound
 from pyramid.view import view_config
 from bs4 import BeautifulSoup
 import bbcode
-
 from ..model.forum import Category, Topic, Post
 
 
@@ -13,7 +13,7 @@ def index(request):
 
 
 @view_config(route_name='forum_category', renderer='forum/category.jinja2')
-def category_view(request): # TODO Paginate topics
+def category_view(request):  # TODO Paginate topics
     try:
         category = Category.objects.get(name=request.matchdict['category_name'])
     except DoesNotExist:
@@ -30,7 +30,7 @@ def category_view(request): # TODO Paginate topics
 def topic_view(request):
     posts_per_page = 20  # TODO Posts per page should probably be configurable
     page = int(request.matchdict['page'])
-    start = (page-1) * posts_per_page
+    start = (page - 1) * posts_per_page
     end = posts_per_page * page
     try:
         topic = Topic.objects.get(id=request.matchdict['topic_id'])
@@ -38,6 +38,9 @@ def topic_view(request):
     except DoesNotExist:
         request.session.flash("Invalid topic ID")
         return HTTPFound(location=request.route_url('forum'))
+
+    last_page = math.ceil(len(topic.posts) / posts_per_page)
+
     if 'content' in request.POST and request.has_permission('forum_post_reply'):
         content = BeautifulSoup(request.POST['content'][:5000], 'html.parser').get_text()  # Strip all HTML
         content = bbcode.render_html(content)  # Convert remaining BBCode to HTML
@@ -45,7 +48,8 @@ def topic_view(request):
         topic.update(push__posts=post, last_post_date=post.post_date)
         request.session.flash('New reply posted.')
         return HTTPFound(location=request.route_url('forum_topic', page=page, topic_id=topic.id))
-    return {'posts': posts, 'topic': topic, 'page': page, 'category': topic.category}
+    return {'posts': posts, 'topic': topic, 'page': page, 'category': topic.category, 'last_page': last_page,
+            'start_post': start+1, 'end_post': min(end, len(topic.posts)), 'total_posts': len(topic.posts)}
 
 
 @view_config(route_name='forum_add_category', renderer='forum/add_category.jinja2', permission='forum_add_category')

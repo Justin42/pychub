@@ -25,6 +25,19 @@
                 </li>
                 {% endfor %}
             </ul>
+        {% if topic.posts|length > 20 %}
+            <div class="text-right u-full-width link-style-rollover">
+                <b>Displaying {{ start_post }} - {{ end_post }} of {{ total_posts }}</b><br/>
+                {% if page > 1 %}
+                    <a href="{{ request.route_url('forum_topic', topic_id=topic.id, page=1) }}"> << </a>
+                    <a href="{{ request.route_url('forum_topic', topic_id=topic.id, page=page-1) }}"> < </a>
+                {% endif %}
+                {% if not page == last_page %}
+                    <a href="{{ request.route_url('forum_topic', topic_id=topic.id, page=page+1) }}"> > </a>
+                    <a href="{{ request.route_url('forum_topic', topic_id=topic.id, page=last_page) }}"> >> </a>
+                {% endif %}
+            </div>
+        {% endif %}
         {% if request.has_permission('forum_post_reply') %}
             <form method="POST" id="new-topic">
                 <label for="content">New Post:</label>
