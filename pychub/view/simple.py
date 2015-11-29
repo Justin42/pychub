@@ -3,6 +3,9 @@ from datetime import datetime
 from mongoengine import DoesNotExist
 from pyramid.httpexceptions import HTTPNotFound, HTTPFound
 from pyramid.view import view_config
+
+from ..model import common
+from ..util import copy_keys
 from ..model.user import User, Character
 from ..model.news_post import NewsPost
 
@@ -38,7 +41,15 @@ def view_character(request):
     except DoesNotExist:
         return HTTPNotFound()
 
-    return {'character': character}
+    classes = character.class_dict
+
+    war_classes = copy_keys(classes, common.war_classes, 0)
+    magic_classes = copy_keys(classes, common.magic_classes, 0)
+    hand_classes = copy_keys(classes, common.hand_classes, 0)
+    land_classes = copy_keys(classes, common.land_classes, 0)
+    extra_classes = copy_keys(classes, common.extra_classes, 0)
+    return {'character': character, 'war_classes': war_classes, 'hand_classes': hand_classes,
+            'magic_classes': magic_classes, 'land_classes': land_classes, 'extra_classes': extra_classes}
 
 
 @view_config(route_name='discord', renderer='discord.jinja2')

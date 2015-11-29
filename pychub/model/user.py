@@ -43,6 +43,13 @@ class Character(Document):
     lodestone_id = StringField(unique=True, required=True)
 
     @property
+    def class_dict(self):
+        class_dict = {}
+        for _class in self.classes:
+            class_dict[_class.name] = _class
+        return class_dict
+
+    @property
     def user(self):
         return User.objects(characters__id=self.id)
 

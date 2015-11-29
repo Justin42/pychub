@@ -175,3 +175,8 @@ span.post-delete {
     padding-left: 0.5em;
     text-align: right;
 }
+/** Profile **/
+div.profile-section-header {
+    text-align: center;
+    font-weight: bold;
+}

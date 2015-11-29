@@ -17,6 +17,12 @@ classes = ['Gladiator', 'Pugilist', 'Marauder', 'Lancer', 'Archer', 'Rogue', 'Co
              'Blacksmith', 'Armorer', 'Goldsmith', 'Leatherworker', 'Weaver', 'Alchemist',
              'Culinarian', 'Miner', 'Botanist', 'Fisher']
 
+war_classes = classes[0:6]
+magic_classes = classes[6:9]
+extra_classes = classes[9:12]
+hand_classes = classes[12:20]
+land_classes = classes[20:23]
+
 grand_companies = ['Immortal Flames', 'Maelstrom', 'Order of the Twin Adder', 'No Affiliation']
 
 races = ['Miqo\'te', 'Hyur', 'Elezen', 'Lalafell', 'Roegadyn', 'Au Ra']

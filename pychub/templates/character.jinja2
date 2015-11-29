@@ -3,23 +3,100 @@
 {% block content %}
     <div class="row">
         <div class="four columns offset-by-four">
-            <span class="center">{{ character.name }}</span>
-            <table class="u-max-full-width center-block">
+            <div class="content-title">{{ character.name }}</div>
+            <table class="u-full-width shadow-box">
                 <tbody>
                     <tr>
-                        <td>Free Company:</td>
-                        <td>{{ character.free_company.name }}</td>
+                        <td style="border-top: 0"><b>Free Company:</b></td>
+                        <td style="border-top: 0">{{ character.free_company.name }}</td>
                     </tr>
                     <tr>
-                        <td>Server:</td>
+                        <td><b>Server:</b></td>
                         <td>{{ character.server }}</td>
                     </tr>
-                    {% for data in character.classes %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div style="display: inline-block;" class="four columns offset-by-two">
+            <div class="profile-section-header">Disciple of War</div>
+            <table class="u-full-width shadow-box">
+                <thead>
                     <tr>
-                        <td>{{ data.name }}</td>
-                        <td>{{ data.level }}</td>
+                        <th>Class Name</th>
+                        <th>Level</th>
                     </tr>
-                    {% endfor %}
+                </thead>
+                <tbody>
+                {% for class in war_classes.values() %}
+                    <tr>
+                        <td>{{ class.name }}</td>
+                        <td>{{ class.level }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div style="display: inline-block;" class="four columns">
+            <div class="profile-section-header">Disciple of Magic</div>
+            <table class="u-full-width shadow-box">
+                <thead>
+                    <tr>
+                        <th>Class Name</th>
+                        <th>Level</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for class in magic_classes.values() %}
+                    <tr>
+                        <td>{{ class.name }}</td>
+                        <td>{{ class.level }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row">
+        <div style="display: inline-block;" class="four columns offset-by-two">
+            <div class="profile-section-header">Disciple of Hand</div>
+            <table class="u-full-width shadow-box">
+                <thead>
+                    <tr>
+                        <th>Class Name</th>
+                        <th>Level</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for class in hand_classes.values() %}
+                    <tr>
+                        <td>{{ class.name }}</td>
+                        <td>{{ class.level }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div style="display: inline-block;" class="four columns">
+            <div class="profile-section-header">Disciple of Land</div>
+            <table class="u-full-width shadow-box">
+                <thead>
+                    <tr>
+                        <th>Class Name</th>
+                        <th>Level</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for class in land_classes.values() %}
+                    <tr>
+                        <td>{{ class.name }}</td>
+                        <td>{{ class.level }}</td>
+                    </tr>
+                {% endfor %}
                 </tbody>
             </table>
         </div>

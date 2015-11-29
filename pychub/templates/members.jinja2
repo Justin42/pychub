@@ -1,7 +1,9 @@
 {% extends "base.jinja2" %}
+{% block title %}{{ free_company.name }} - Members{% endblock %}
 {% block content %}
 <div class="row">
     <div class="six columns offset-by-three">
+        <div class="content-title">Members</div>
         <table class="u-full-width shadow-box link-style-rollover">
             <thead>
                 <tr>
@@ -12,7 +14,7 @@
             <tbody>
             {% for member in free_company.sorted_member_list %}
                 <tr>
-                <td><a href="{{ request.route_url('character', id=member.lodestone_id) }}" target="_blank">{{ member.name }}</a></td>
+                <td><a href="{{ request.route_url('character', id=member.lodestone_id) }}">{{ member.name }}</a></td>
                 <td>{{ member.rank }}</td>
                 </tr>
             {% endfor %}
