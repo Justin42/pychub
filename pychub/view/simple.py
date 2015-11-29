@@ -43,11 +43,11 @@ def view_character(request):
 
     classes = character.class_dict
 
-    war_classes = copy_keys(classes, common.war_classes, 0)
-    magic_classes = copy_keys(classes, common.magic_classes, 0)
-    hand_classes = copy_keys(classes, common.hand_classes, 0)
-    land_classes = copy_keys(classes, common.land_classes, 0)
-    extra_classes = copy_keys(classes, common.extra_classes, 0)
+    war_classes = copy_keys(classes, common.war_classes)
+    magic_classes = copy_keys(classes, common.magic_classes)
+    hand_classes = copy_keys(classes, common.hand_classes)
+    land_classes = copy_keys(classes, common.land_classes)
+    extra_classes = copy_keys(classes, common.extra_classes)
     return {'character': character, 'war_classes': war_classes, 'hand_classes': hand_classes,
             'magic_classes': magic_classes, 'land_classes': land_classes, 'extra_classes': extra_classes}
 

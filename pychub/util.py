@@ -10,11 +10,11 @@ def gen_random(length):
         range(length))
 
 
-def copy_keys(dict: dict, keys: list, default=None):
+def copy_keys(dict: dict, keys: list, default=None, skip_missing=True):
     new_dict = {}
     for key in keys:
         value = dict.get(key)
-        if value:
+        if value or not skip_missing:
             new_dict[key] = dict.get(key, default)
     return new_dict
 
