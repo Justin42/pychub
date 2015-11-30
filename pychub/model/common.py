@@ -17,8 +17,8 @@ classes = ['Gladiator', 'Pugilist', 'Marauder', 'Lancer', 'Archer', 'Rogue', 'Co
              'Blacksmith', 'Armorer', 'Goldsmith', 'Leatherworker', 'Weaver', 'Alchemist',
              'Culinarian', 'Miner', 'Botanist', 'Fisher']
 
-war_classes = classes[0:6]
-magic_classes = classes[6:9]
+war_classes = classes[0:6] + classes[9:11]
+magic_classes = classes[6:9] + [classes[11]]
 extra_classes = classes[9:12]
 hand_classes = classes[12:20]
 land_classes = classes[20:23]
