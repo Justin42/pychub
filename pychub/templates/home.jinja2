@@ -6,12 +6,13 @@
                 <li>
                 {% for post in news %}
                     <div class="news-post shadow-box">
-                        <div class="news-post-title">{{ post.title }}<span class="top-right-icon link-style-danger"><a href="{{ request.route_url('admin_delete_item', model='NewsPost', id=post.id) }}">X</a></span></div>
+                        <div class="news-post-title">{{ post.title }}
+                            {% if request.has_permission('admin') %}
+                                <span class="top-right-icon link-style-danger"><a href="{{ request.route_url('admin_delete_item', model='NewsPost', id=post.id) }}">X</a></span>
+                            {% endif %}
+                        </div>
                         <div class="news-post-body">{{ post.body }}</div>
                         <div class="news-post-details">by {{ post.user.username }} on {{ post.date.strftime('%B %d') }}</div>
-                    {% if request.has_permission('admin') %}
-                        <div class="mini-right"></div>
-                    {% endif %}
                     </div>
                 {% endfor %}
                 </li>
