@@ -7,11 +7,12 @@ from pyramid.config import Configurator
 from pyramid.events import subscriber, BeforeRender
 from pyramid.session import SignedCookieSessionFactory
 
+from .lodestone.client import LodestoneClient
 from . import request_methods
 from .model.free_company import FreeCompany
 from .model.user import Character
 from .security import get_groups
-from .util import gen_random, lodestone
+from .util import gen_random
 import mongoengine as mongo
 
 renderer_globals = {}
@@ -31,6 +32,7 @@ def main(global_config, **settings):
     mongo.connect(config.registry.settings['mongo_database'])
 
     # Collect initial data
+    lodestone = LodestoneClient()
     try:
         lodestone_id = config.registry.settings['free_company.id']
         free_company = FreeCompany.objects.get(lodestone_id=lodestone_id)

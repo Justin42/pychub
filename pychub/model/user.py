@@ -1,12 +1,14 @@
+from datetime import datetime
 import warnings
 
 from bcrypt import hashpw, gensalt
 from mongoengine import *
 
+from ..lodestone.client import LodestoneClient
 from ..exceptions import CharacterNotFound, CharacterAlreadyLinked, InvalidLinkCode
 from .free_company import FreeCompany
-from .common import classes, servers, genders, grand_companies, races, groups
-from ..util import gen_random, lodestone
+from .common import classes, servers, genders, grand_companies, races, groups, Updateable
+from ..util import gen_random
 
 
 class ClassData(EmbeddedDocument):
@@ -23,7 +25,7 @@ class AchievementInfo(EmbeddedDocument):
     text = StringField()
 
 
-class Character(Document):
+class Character(Document, Updateable):
     name = StringField(required=True)
     server = StringField(choices=servers, required=True)
     free_company = ReferenceField(FreeCompany)
@@ -54,31 +56,7 @@ class Character(Document):
     def user(self):
         return User.objects(characters__id=self.id)
 
-    @staticmethod
-    def from_dict(char_dict):
-        warnings.warn("deprecated", DeprecationWarning)
-        character = Character()
-
-        for key, value in char_dict.items():
-            setattr(character, key, value)
-
-        character.classes = [
-            ClassData(name=c['name'], level=c['level'], current_exp=c['current_exp'], next_exp=c['next_exp']) for
-            c in char_dict['classes']
-        ]
-
-        character.recent_achievements = [
-            AchievementInfo(date=a['date'], type=a['type'], name=a['name'], text=a['text']) for
-            a in char_dict['recent_achievements']
-        ]
-
-        try:
-            character.free_company = FreeCompany.objects.get(lodestone_id=char_dict['free_company'])
-        except DoesNotExist:  # TODO Logging
-            return None
-        return character
-
-    def update_lodestone_data(self, achievements=True):
+    def update_lodestone_data(self, lodestone: LodestoneClient, achievements=True):
         new_data = lodestone.get_character_data(self.lodestone_id, achievements)
 
         # Update basic
@@ -100,7 +78,8 @@ class Character(Document):
             self.free_company = FreeCompany.objects.get(lodestone_id=new_data['free_company'])
         except DoesNotExist:  # TODO Logging
             return None
-
+        self.last_update = datetime.utcnow()
+        self.save()
         return self
 
 

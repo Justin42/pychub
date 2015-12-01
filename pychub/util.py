@@ -17,5 +17,3 @@ def copy_keys(dict: dict, keys: list, default=None, skip_missing=True):
         if value or not skip_missing:
             new_dict[key] = dict.get(key, default)
     return new_dict
-
-lodestone = LodestoneClient()

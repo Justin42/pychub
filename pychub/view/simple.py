@@ -4,6 +4,7 @@ from mongoengine import DoesNotExist
 from pyramid.httpexceptions import HTTPNotFound, HTTPFound
 from pyramid.view import view_config
 
+from ..model.common import update_service
 from ..model import common
 from ..util import copy_keys
 from ..model.user import User, Character
@@ -48,6 +49,8 @@ def view_character(request):
     hand_classes = copy_keys(classes, common.hand_classes)
     land_classes = copy_keys(classes, common.land_classes)
     extra_classes = copy_keys(classes, common.extra_classes)
+
+    update_service.queue(character)
     return {'character': character, 'war_classes': war_classes, 'hand_classes': hand_classes,
             'magic_classes': magic_classes, 'land_classes': land_classes, 'extra_classes': extra_classes}
 

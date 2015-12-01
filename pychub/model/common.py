@@ -1,3 +1,5 @@
+from ..lodestone_update import LodestoneUpdater
+
 groups = ['admin', 'member']
 
 servers = ['Aegis', 'Atomos', 'Carbuncle', 'Garuda', 'Gungnir', 'Kujata', 'Ramuh', 'Tonberry',
@@ -28,3 +30,9 @@ grand_companies = ['Immortal Flames', 'Maelstrom', 'Order of the Twin Adder', 'N
 races = ['Miqo\'te', 'Hyur', 'Elezen', 'Lalafell', 'Roegadyn', 'Au Ra']
 
 genders = ['Male', 'Female']
+
+update_service = LodestoneUpdater(delay=30, frequency=3600)
+
+class Updateable:
+    def update_lodestone_data(self, lodestone, **kwargs):
+        raise NotImplementedError()
