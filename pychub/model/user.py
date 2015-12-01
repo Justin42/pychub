@@ -41,6 +41,7 @@ class Character(Document):
     race = StringField(choices=races)
     lodestone_profile = StringField()
     lodestone_id = StringField(unique=True, required=True)
+    last_update = DateTimeField(default=datetime.utcnow)
 
     @property
     def class_dict(self):
