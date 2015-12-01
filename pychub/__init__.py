@@ -38,16 +38,15 @@ def main(global_config, **settings):
         lodestone_id = config.registry.settings['free_company.id']
         free_company = FreeCompany.objects.get(lodestone_id=lodestone_id)
     except mongo.DoesNotExist:
-        free_company = lodestone.get_fc_by_id(config.registry.settings['free_company.id'])
-        lodestone.get_fc_members(free_company)
-        free_company = FreeCompany.from_dict(free_company)
-        free_company.save()
+        print("Scraping initial free company data.")
+        free_company = FreeCompany(lodestone_id=config.registry.settings['free_company.id'])
+        free_company.update_lodestone_data(lodestone)
 
     for name, data in free_company.members.items():
         try:
             Character.objects.get(lodestone_id=data['lodestone_id'])
         except mongo.DoesNotExist:
-            print('Updating character data for', name)
+            print("Getting character data:", name)
             char = Character(lodestone_id=data['lodestone_id'])
             update_service.queue(char)
 

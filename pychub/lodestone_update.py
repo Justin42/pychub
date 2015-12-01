@@ -27,7 +27,6 @@ class LodestoneUpdater:
     def queue(self, item: Updateable):
         if not item.last_update or item.last_update + item.update_frequency <= datetime.utcnow():
             self.update_queue.put(item)
-            print("Item added to update queue")
 
     @property
     def queue_size(self):
@@ -38,9 +37,8 @@ class LodestoneUpdater:
             try:
                 item = self.update_queue.get()
                 if not item.last_update or item.last_update + item.update_frequency <= datetime.utcnow():
-                    print("Updating item...")
                     item.update_lodestone_data(self.lodestone)
-                    print("Finished Update.")
+                    print("Finished updating item", item.lodestone_id)
                     sleep(self.delay)
             except Exception as ex:
                 print(ex)

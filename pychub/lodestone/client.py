@@ -69,7 +69,6 @@ class LodestoneClient:
                 if last_member_rank != members[name]['rank']:
                     last_member_rank = members[name]['rank']
                     free_company['member_ranks'].append(last_member_rank)
-        free_company['members'] = members
         return members
 
     def get_character_data(self, lodestone_id, achievements=False):

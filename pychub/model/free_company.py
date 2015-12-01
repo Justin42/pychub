@@ -1,4 +1,9 @@
+from datetime import datetime
+
 from mongoengine import *
+
+from ..lodestone_update import Updateable
+from ..lodestone.client import LodestoneClient
 
 
 class FreeCompanyEstate(EmbeddedDocument):
@@ -9,7 +14,7 @@ class FreeCompanyEstate(EmbeddedDocument):
     greeting = StringField(required=True)
 
 
-class FreeCompany(Document):
+class FreeCompany(Document, Updateable):
     lodestone_id = StringField(required=True, unique=True)
     name = StringField(required=True)
     tag = StringField(required=True)
@@ -26,6 +31,8 @@ class FreeCompany(Document):
     estate = EmbeddedDocumentField(FreeCompanyEstate)
     members = DictField(required=True)
     member_ranks = ListField(StringField(), required=True)
+    last_update = DateTimeField()
+
     meta = {
         'index_drop_dups': True,
         'indexes': [
@@ -43,16 +50,18 @@ class FreeCompany(Document):
                     members.append(data)
         return members
 
-    @staticmethod
-    def from_dict(fc_dict):
-        fc = FreeCompany()
+    def update_lodestone_data(self, lodestone: LodestoneClient, members=True):
+        fc_dict = lodestone.get_fc_by_id(self.lodestone_id)
+        fc_dict['members'] = lodestone.get_fc_members(fc_dict)
 
         for key, value in fc_dict.items():
-            setattr(fc, key, value)
+            setattr(self, key, value)
 
         if 'estate' in fc_dict:
             estate = FreeCompanyEstate()
             for key, value in fc_dict['estate'].items():
                 setattr(estate, key, value)
-            fc.estate = estate
-        return fc
+            self.estate = estate
+
+        self.last_update = datetime.utcnow()
+        self.save()

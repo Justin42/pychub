@@ -4,8 +4,9 @@ from mongoengine import DoesNotExist
 from pyramid.httpexceptions import HTTPNotFound, HTTPFound
 from pyramid.view import view_config
 
-from ..model.common import update_service
+from ..model.free_company import FreeCompany
 from ..model import common
+from ..model.common import update_service
 from ..util import copy_keys
 from ..model.user import User, Character
 from ..model.news_post import NewsPost
@@ -18,6 +19,11 @@ def home(request):
 
 @view_config(route_name='members', renderer='members.jinja2')
 def members(request):
+    try:
+        free_company = FreeCompany.objects.get(lodestone_id=request.registry.settings['free_company.id'])
+        update_service.queue(free_company)
+    except DoesNotExist:
+        pass
     return {}
 
 
