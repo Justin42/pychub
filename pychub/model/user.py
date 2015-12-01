@@ -4,10 +4,11 @@ import warnings
 from bcrypt import hashpw, gensalt
 from mongoengine import *
 
+from ..lodestone_update import Updateable
 from ..lodestone.client import LodestoneClient
 from ..exceptions import CharacterNotFound, CharacterAlreadyLinked, InvalidLinkCode
 from .free_company import FreeCompany
-from .common import classes, servers, genders, grand_companies, races, groups, Updateable
+from .common import classes, servers, genders, grand_companies, races, groups
 from ..util import gen_random
 
 
@@ -43,7 +44,7 @@ class Character(Document, Updateable):
     race = StringField(choices=races)
     lodestone_profile = StringField()
     lodestone_id = StringField(unique=True, required=True)
-    last_update = DateTimeField(default=datetime.utcnow)
+    last_update = DateTimeField()
 
     @property
     def class_dict(self):

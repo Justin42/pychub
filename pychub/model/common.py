@@ -31,8 +31,4 @@ races = ['Miqo\'te', 'Hyur', 'Elezen', 'Lalafell', 'Roegadyn', 'Au Ra']
 
 genders = ['Male', 'Female']
 
-update_service = LodestoneUpdater(delay=30, frequency=3600)
-
-class Updateable:
-    def update_lodestone_data(self, lodestone, **kwargs):
-        raise NotImplementedError()
+update_service = LodestoneUpdater(delay=1)

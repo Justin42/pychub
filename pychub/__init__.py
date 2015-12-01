@@ -7,6 +7,7 @@ from pyramid.config import Configurator
 from pyramid.events import subscriber, BeforeRender
 from pyramid.session import SignedCookieSessionFactory
 
+from .model.common import update_service
 from .lodestone.client import LodestoneClient
 from . import request_methods
 from .model.free_company import FreeCompany
@@ -47,10 +48,8 @@ def main(global_config, **settings):
             Character.objects.get(lodestone_id=data['lodestone_id'])
         except mongo.DoesNotExist:
             print('Updating character data for', name)
-            char = lodestone.get_character_data(data['lodestone_id'], True)
-            char = Character.from_dict(char)
-            char.save()
-            time.sleep(1) # Slight delay between character data
+            char = Character(lodestone_id=data['lodestone_id'])
+            update_service.queue(char)
 
     renderer_globals['free_company'] = free_company
 
