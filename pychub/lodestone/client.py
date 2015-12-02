@@ -45,7 +45,6 @@ class LodestoneClient:
         free_company['estate']['area'] = tmp_a[2].split('(')[0].strip()
         free_company['estate']['size'] = tmp_a[2].split('(')[1][:-1]
         free_company['estate']['greeting'] = tmp[4]
-        print(free_company)
         return free_company
 
     def get_fc_members(self, free_company):

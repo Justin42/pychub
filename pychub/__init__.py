@@ -7,6 +7,7 @@ from pyramid.config import Configurator
 from pyramid.events import subscriber, BeforeRender
 from pyramid.session import SignedCookieSessionFactory
 
+from .logger import get_logger
 from .model.common import update_service
 from .lodestone.client import LodestoneClient
 from . import request_methods
@@ -17,7 +18,7 @@ from .util import gen_random
 import mongoengine as mongo
 
 renderer_globals = {}
-
+log = get_logger(__name__)
 
 def main(global_config, **settings):
     """ This function returns a Pyramid WSGI application.
@@ -37,7 +38,7 @@ def main(global_config, **settings):
         lodestone_id = config.registry.settings['free_company.id']
         free_company = FreeCompany.objects.get(lodestone_id=lodestone_id)
     except mongo.DoesNotExist:
-        print("Scraping initial free company data.")
+        log.info("Scraping initial free company data.")
         lodestone = LodestoneClient()
         free_company = FreeCompany(lodestone_id=config.registry.settings['free_company.id'])
         free_company.update_lodestone_data(lodestone)
@@ -46,7 +47,6 @@ def main(global_config, **settings):
             try:
                 Character.objects.get(lodestone_id=data['lodestone_id'])
             except mongo.DoesNotExist:
-                print("Getting character data:", name)
                 char = Character(lodestone_id=data['lodestone_id'])
                 update_service.queue(char)
 

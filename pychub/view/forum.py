@@ -5,7 +5,7 @@ from pyramid.view import view_config
 from bs4 import BeautifulSoup
 import bbcode
 from ..model.forum import Category, Topic, Post
-from logger import get_logger
+from ..logger import get_logger
 
 log = get_logger(__name__)
 
@@ -63,8 +63,8 @@ def add_category(request):
             category.name = request.POST['name'].strip()
             if 'alias' in request.POST:
                 category.link_alias = request.POST['alias'].strip()
-            else:
-                category.link_alias = category.name
+            if category.link_alias == '':
+                category.link_alias = category.name.lower()
             if 'description' in request.POST:
                 category.description = request.POST['description'].strip()
             category.save()
@@ -72,6 +72,7 @@ def add_category(request):
             return HTTPFound(location=request.route_url('forum'))
         except NotUniqueError as ex:
             request.session.flash('A category with that name or alias already exists')
+            log.exception('Could not create category %s', category.name)
             return {}
     else:
         return {}

@@ -13,6 +13,7 @@ __initialized = False
 
 
 def __init():
+    global __initialized
     formatter = logging.Formatter("%(asctime)s %(levelname)-5.5s [%(name)s][%(threadName)s] %(message)s")
     _file_handler.setFormatter(formatter)
     _file_handler.setLevel(logging.WARN)
@@ -22,13 +23,13 @@ def __init():
 
 def get_logger(clazz):
     if type(clazz) is str:
+        clazz = clazz[clazz.find('.')+1:] # Strip top level package name
         log = logging.getLogger(clazz)
     else:
         log = logging.getLogger(type(clazz).__name__)
     if not __initialized:
         __init()
-    if not log.hasHandlers():
-        log.setLevel(logging.DEBUG)
-        log.addHandler(_memory_handler)
-        log.addHandler(_stream_handler)
+    log.setLevel(logging.DEBUG)
+    log.addHandler(_memory_handler)
+    log.addHandler(_stream_handler)
     return log

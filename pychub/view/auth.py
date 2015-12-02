@@ -2,7 +2,7 @@ from mongoengine import DoesNotExist, ValidationError
 from pyramid.httpexceptions import HTTPFound
 from pyramid.security import remember
 from pyramid.view import view_config
-from logger import get_logger
+from ..logger import get_logger
 
 from ..model.user import User
 

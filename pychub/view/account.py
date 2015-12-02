@@ -1,10 +1,11 @@
 from pyramid.httpexceptions import HTTPFound
 from pyramid.view import view_config
-from logger import get_logger
+from ..logger import get_logger
 
 from ..exceptions import CharacterAlreadyLinked, CharacterNotFound
 
 log = get_logger(__name__)
+
 
 @view_config(route_name='account', renderer='account/index.jinja2', permission='member')
 def index(request):
