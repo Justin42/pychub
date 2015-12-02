@@ -5,6 +5,9 @@ from pyramid.view import view_config
 from bs4 import BeautifulSoup
 import bbcode
 from ..model.forum import Category, Topic, Post
+from logger import get_logger
+
+log = get_logger(__name__)
 
 
 @view_config(route_name='forum', renderer='forum/index.jinja2')
@@ -65,6 +68,7 @@ def add_category(request):
             if 'description' in request.POST:
                 category.description = request.POST['description'].strip()
             category.save()
+            log.info("New category created '%s' by user %s", category.name, request.authenticated_userid)
             return HTTPFound(location=request.route_url('forum'))
         except NotUniqueError as ex:
             request.session.flash('A category with that name or alias already exists')

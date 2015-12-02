@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 from time import sleep
 
 from .lodestone.client import LodestoneClient
+from .logger import get_logger
 
 
 class Updateable:
@@ -17,16 +18,22 @@ class Updateable:
 
 class LodestoneUpdater:
     def __init__(self, delay):
-        self.worker_thread = threading.Thread(target=self.__process, daemon=True)
+        self.log = get_logger(self)
+        self.worker_thread = threading.Thread(target=self.__process, daemon=True, name='UpdateThread')
         self.update_queue = queue.LifoQueue()
         self.delay = delay
         self.lodestone = LodestoneClient()
         self.worker_thread.start()
-        print("Initialized lodestone update service")
+        self.log.info("Initialized lodestone update service")
 
     def queue(self, item: Updateable):
-        if not item.last_update or item.last_update + item.update_frequency <= datetime.utcnow():
-            self.update_queue.put(item)
+        try:
+            if not item.last_update or item.last_update + item.update_frequency <= datetime.utcnow():
+                self.log.info("Queueing item for update %s %s '%s'", type(item).__name__, item.lodestone_id, item.name)
+                self.log.debug("Update queue size: %d", self.update_queue.qsize())
+                self.update_queue.put(item)
+        except Exception as ex:
+            self.log.exception('Unable to queue item for update')
 
     @property
     def queue_size(self):
@@ -38,10 +45,8 @@ class LodestoneUpdater:
                 item = self.update_queue.get()
                 if not item.last_update or item.last_update + item.update_frequency <= datetime.utcnow():
                     item.update_lodestone_data(self.lodestone)
-                    print("Finished updating item:", type(item).__name__, item.lodestone_id)
+                    self.log.info("Finished updating item: %s %s '%s'", type(item).__name__, item.lodestone_id, item.name)
                     sleep(self.delay)
-            except AttributeError as ex:
-                print("Cannot update this object: ", ex)
             except Exception as ex:
-                print("Update failed", ex)
+                self.log.exception("Cannot update object")
 

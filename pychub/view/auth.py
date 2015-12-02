@@ -2,8 +2,11 @@ from mongoengine import DoesNotExist, ValidationError
 from pyramid.httpexceptions import HTTPFound
 from pyramid.security import remember
 from pyramid.view import view_config
+from logger import get_logger
 
 from ..model.user import User
+
+log = get_logger(__name__)
 
 
 @view_config(route_name='login', renderer='login.jinja2')
@@ -20,10 +23,12 @@ def login(request):
             if user.check_password(password):
                 headers = remember(request, username)
                 return HTTPFound(location=came_from, headers=headers)
+            else:
+                log.info("Password check failed for user '%s' from IP %s", username, request.remote_addr)
         except DoesNotExist:
             message = 'Login failed.'
             return dict(message=message, username=username, password=password)
-    return {'username': '', 'password': '', 'message': 'Test'}
+    return {'username': '', 'password': '', 'message': ''}
 
 
 @view_config(route_name='register', renderer='register.jinja2')
@@ -78,7 +83,7 @@ def register(request): # TODO Add captcha and e-mail verification
         user.set_password(str(password))
         user.email = email
         user.save()
-
+        log.info("User '%s' registered by IP %s", user.username, request.remote_addr)
         request.session.flash('Account created.')
         return HTTPFound(location=request.route_url('home'))
     return {}
