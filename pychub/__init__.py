@@ -33,22 +33,22 @@ def main(global_config, **settings):
     mongo.connect(config.registry.settings['mongo_database'])
 
     # Collect initial data
-    lodestone = LodestoneClient()
     try:
         lodestone_id = config.registry.settings['free_company.id']
         free_company = FreeCompany.objects.get(lodestone_id=lodestone_id)
     except mongo.DoesNotExist:
         print("Scraping initial free company data.")
+        lodestone = LodestoneClient()
         free_company = FreeCompany(lodestone_id=config.registry.settings['free_company.id'])
         free_company.update_lodestone_data(lodestone)
 
-    for name, data in free_company.members.items():
-        try:
-            Character.objects.get(lodestone_id=data['lodestone_id'])
-        except mongo.DoesNotExist:
-            print("Getting character data:", name)
-            char = Character(lodestone_id=data['lodestone_id'])
-            update_service.queue(char)
+        for name, data in free_company.members.items():
+            try:
+                Character.objects.get(lodestone_id=data['lodestone_id'])
+            except mongo.DoesNotExist:
+                print("Getting character data:", name)
+                char = Character(lodestone_id=data['lodestone_id'])
+                update_service.queue(char)
 
     renderer_globals['free_company'] = free_company
 
