@@ -25,10 +25,10 @@ def login(request):
                 return HTTPFound(location=came_from, headers=headers)
             else:
                 log.info("Password check failed for user '%s' from IP %s", username, request.remote_addr)
+                request.session.flash('Invalid username or password.')
         except DoesNotExist:
-            message = 'Login failed.'
-            return dict(message=message, username=username, password=password)
-    return {'username': '', 'password': '', 'message': ''}
+            request.session.flash('Invalid username or password.')
+    return {}
 
 
 @view_config(route_name='register', renderer='register.jinja2')
