@@ -16,7 +16,6 @@ class LodestoneClient:
         self.config.read('config/config.ini')
         self.config = self.config['lodestoneClient']
         self.lodestoneUrl = self.config['lodestoneUrl']
-        print("Created new lodestone client instance")
 
     def get_fc_by_id(self, lodestoneid):
         free_company = {'estate': {}}

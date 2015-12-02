@@ -22,7 +22,7 @@ class LodestoneUpdater:
         self.delay = delay
         self.lodestone = LodestoneClient()
         self.worker_thread.start()
-        print("Initialized new update service instance")
+        print("Initialized lodestone update service")
 
     def queue(self, item: Updateable):
         if not item.last_update or item.last_update + item.update_frequency <= datetime.utcnow():
@@ -38,7 +38,10 @@ class LodestoneUpdater:
                 item = self.update_queue.get()
                 if not item.last_update or item.last_update + item.update_frequency <= datetime.utcnow():
                     item.update_lodestone_data(self.lodestone)
-                    print("Finished updating item", item.lodestone_id)
+                    print("Finished updating item:", type(item).__name__, item.lodestone_id)
                     sleep(self.delay)
+            except AttributeError as ex:
+                print("Cannot update this object: ", ex)
             except Exception as ex:
-                print(ex)
+                print("Update failed", ex)
+
