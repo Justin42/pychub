@@ -4,6 +4,8 @@ from pyramid.security import remember
 from pyramid.view import view_config
 from ..logger import get_logger
 
+import requests as http
+
 from ..model.user import User
 
 log = get_logger(__name__)
@@ -77,6 +79,15 @@ def register(request): # TODO Add captcha and e-mail verification
         except DoesNotExist:
             pass
 
+        try:
+            if request.registry.settings['recaptcha_enabled']:
+                if not check_recaptcha(request):
+                    request.session.flash('Invalid captcha')
+                    return HTTPFound(location=request.route_url('register'))
+        except Exception as ex:
+            request.session.flash('Unable to verify captcha')
+            return HTTPFound(location=request.route_url('register'))
+
         # Valid registration
         user = User()
         user.username = username
@@ -86,4 +97,12 @@ def register(request): # TODO Add captcha and e-mail verification
         log.info("User '%s' registered by IP %s", user.username, request.remote_addr)
         request.session.flash('Account created.')
         return HTTPFound(location=request.route_url('home'))
-    return {}
+    return {'recaptcha_site_key': request.registry.settings['recaptcha_site_key'], 'recaptcha_enabled': request.registry.settings['recaptcha_enabled']}
+
+
+def check_recaptcha(request):
+    data = {'secret': request.registry.settings['recaptcha_secret'],
+            'response': request.POST['g-recaptcha-response'],
+            'remoteip': request.remote_addr}
+    r = http.post('https://www.google.com/recaptcha/api/siteverify', data=data).json()
+    return r['success']

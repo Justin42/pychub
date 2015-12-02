@@ -14,7 +14,7 @@ requires = [
     'pyramid_tm',
     'transaction',
     'waitress',
-    'mongoengine', 'bcrypt', 'beautifulsoup4', 'pyramid_jinja2, bbcode'
+    'mongoengine', 'bcrypt', 'beautifulsoup4', 'pyramid_jinja2, bbcode', 'requests'
     ]
 
 setup(name='PyChub',

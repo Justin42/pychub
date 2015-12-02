@@ -1,5 +1,8 @@
 {% extends "base.jinja2" %}
 {% block title %}{{ free_company.name }} - Login{% endblock %}
+{% block head %}
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+{% endblock %}
 {% block content %}
     <div class="row">
         <div class="three columns offset-by-five">
@@ -15,8 +18,10 @@
 
                 <label for="email">E-Mail</label>
                 <input id="email" type="email" name="email"/>
-
-                <input type="submit" value="Register"/>
+                {% if recaptcha_enabled %}
+                    <div class="g-recaptcha" data-sitekey="{{ recaptcha_site_key }}"></div>
+                {% endif %}
+                <input class="button-primary" type="submit" value="Register"/>
             </form>
         </div>
     </div>
