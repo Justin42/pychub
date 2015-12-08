@@ -1,6 +1,7 @@
 from pyramid.httpexceptions import HTTPNotFound, HTTPFound
 from pyramid.view import view_config
 
+from ..model.common import update_service
 from ..model.news_post import NewsPost
 from ..model.user import User
 
@@ -32,4 +33,9 @@ def delete_item(request):
     if not ref:
         ref = request.route_url('home')
     return HTTPFound(location=ref)
+
+
+@view_config(route_name='admin_view_queue', renderer='admin/view_queue.jinja2', permission='admin')
+def view_queue(request):
+    return {'queue': update_service.update_queue.queue}
 
