@@ -43,10 +43,14 @@ class LodestoneUpdater:
         while True:
             try:
                 item = self.update_queue.get()
+                # Update object from database record
+                item = item.__class__.objects.get(lodestone_id=item.lodestone_id)
                 if not item.last_update or item.last_update + item.update_frequency <= datetime.utcnow():
                     item.update_lodestone_data(self.lodestone)
                     self.log.info("Finished updating item %s %s '%s'", type(item).__name__, item.lodestone_id, item.name)
                     sleep(self.delay)
+                else:
+                    self.log.info("Skipping item update for %s %s '%s'", type(item).__name__, item.lodestone_id, item.name)
             except Exception as ex:
                 self.log.exception("Cannot update object")
 
