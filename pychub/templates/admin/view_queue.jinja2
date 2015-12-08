@@ -8,6 +8,7 @@
             <thead>
                 <tr>
                     <th>Name</th>
+                    <th>ID</th>
                     <th>Type</th>
                 <tr>
             </thead>
@@ -15,6 +16,7 @@
             {% for item in queue %}
                 <tr>
                 <td>{{ item.name }}</td>
+                <td>{{ item.lodestone_id }}</td>
                 <td>{{ item.__class__.__name__ }}</td>
                 </tr>
             {% endfor %}
