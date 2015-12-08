@@ -3,6 +3,8 @@ import threading
 from datetime import datetime, timedelta
 from time import sleep
 
+from mongoengine import DoesNotExist
+
 from .lodestone.client import LodestoneClient
 from .logger import get_logger
 
@@ -44,13 +46,30 @@ class LodestoneUpdater:
             try:
                 item = self.update_queue.get()
                 # Update object from database record
-                item = item.__class__.objects.get(lodestone_id=item.lodestone_id)
+                try:
+                    item = item.__class__.objects.get(lodestone_id=item.lodestone_id)
+                except DoesNotExist:
+                    self.log.info("Adding new lodestone item to database '%s'", item.lodestone_id)
                 if not item.last_update or item.last_update + item.update_frequency <= datetime.utcnow():
                     item.update_lodestone_data(self.lodestone)
                     self.log.info("Finished updating item %s %s '%s'", type(item).__name__, item.lodestone_id, item.name)
                     sleep(self.delay)
                 else:
                     self.log.info("Skipping item update for %s %s '%s'", type(item).__name__, item.lodestone_id, item.name)
+
+                # Queue new FC members to gather initial data
+                # TODO This isn't very efficient.
+                if type(item).__name__ == 'FreeCompany':
+                    fc_members = set([member['lodestone_id'] for member in item.members])
+                    from pychub import Character
+                    known_members = Character.objects(free_company=item, lodestone_id__in=fc_members)
+                    known_members = set([member.lodestone_id for member in known_members])
+                    new_members = fc_members - known_members
+                    for member in new_members:
+                        character = Character(lodestone_id=member)
+                        self.queue(character)
+
+
             except Exception as ex:
                 self.log.exception("Cannot update object")
 
