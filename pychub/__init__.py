@@ -83,9 +83,10 @@ def main(global_config, **settings):
     # Admin routes
     config.add_route('post_news', '/post_news')
     config.add_route('admin', '/admin')
-    config.add_route('admin_view_model', '/admin/{model}')
-    config.add_route('admin_delete_item', '/admin/{model}/delete/{id}')
-    config.add_route('admin_add_item', '/admin/{model}/add')
+    config.add_route('admin_view_model', '/admin/view/{model}')
+    config.add_route('admin_delete_item', '/admin/delete/{model}/{id}')
+    config.add_route('admin_add_item', '/admin/add/{model}')
+    config.add_route('admin_view_queue', '/admin/queue')
 
     config.scan()
 
