@@ -63,7 +63,7 @@ def view_character(request):
 
 @view_config(route_name='discord', renderer='discord.jinja2')
 def discord(request):
-    return {}
+    return {'discord_url': request.registry.settings['discord_url']}
 
 
 @view_config(context=HTTPNotFound, renderer='error/not_found.jinja2')
