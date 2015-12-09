@@ -70,6 +70,7 @@ def main(global_config, **settings):
     config.add_route('session', '/session')
     config.add_route('members', '/members')
     config.add_route('character', '/character/{id}')
+    config.add_route('user', '/user/{id}')
     config.add_route('discord', '/discord')
 
     # Account

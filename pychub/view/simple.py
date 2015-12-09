@@ -61,6 +61,15 @@ def view_character(request):
             'magic_classes': magic_classes, 'land_classes': land_classes, 'extra_classes': extra_classes}
 
 
+@view_config(route_name='user', renderer='user.jinja2')
+def view_user(request):
+    try:
+        user = User.objects.get(id=request.matchdict['id'])
+        return {'user': user, 'characters': user.characters}
+    except DoesNotExist:
+        return HTTPNotFound()
+
+
 @view_config(route_name='discord', renderer='discord.jinja2')
 def discord(request):
     return {'discord_url': request.registry.settings['discord_url']}
