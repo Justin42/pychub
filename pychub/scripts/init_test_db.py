@@ -2,6 +2,7 @@ from datetime import datetime
 
 from mongoengine import connect
 
+from pychub import FreeCompany
 from pychub.model.forum import Category, Topic, Post
 from pychub.model.news_post import NewsPost
 from pychub.model.user import User, Character
@@ -41,4 +42,4 @@ def init_test_db():
     topic.save()
 
 if __name__ == '__main__':
-    init_test_db()
+    exit()

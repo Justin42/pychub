@@ -30,14 +30,15 @@ class LodestoneUpdater:
         self.log.info("Initialized lodestone update service")
 
     def queue(self, item: Updateable):
-        if self.enabled:
-            try:
-                if not item.last_update or item.last_update + item.update_frequency <= datetime.utcnow():
-                    self.log.info("Queueing item for update %s %s '%s'", type(item).__name__, item.lodestone_id, item.name)
-                    self.log.debug("Update queue size: %d", self.update_queue.qsize())
-                    self.update_queue.put(item)
-            except Exception as ex:
-                self.log.exception('Unable to queue item for update')
+        if not self.enabled:
+            return
+        try:
+            if not item.last_update or item.last_update + item.update_frequency <= datetime.utcnow():
+                self.log.info("Queueing item for update %s %s '%s'", type(item).__name__, item.lodestone_id, item.name)
+                self.log.debug("Update queue size: %d", self.update_queue.qsize())
+                self.update_queue.put(item)
+        except Exception as ex:
+            self.log.exception('Unable to queue item for update')
 
     @property
     def queue_size(self):

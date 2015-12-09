@@ -21,6 +21,7 @@ import mongoengine as mongo
 renderer_globals = {}
 log = get_logger(__name__)
 
+
 def main(global_config, **settings):
     """ This function returns a Pyramid WSGI application.
     """
@@ -34,6 +35,7 @@ def main(global_config, **settings):
     # Database connect
     mongo.connect(config.registry.settings['mongo_database'])
 
+    # Enable / Disable update service
     update_service.enabled = asbool(config.registry.settings.enable_lodestone_updates)
     if not update_service.enabled:
         log.info('Lodestone update service is DISABLED')
