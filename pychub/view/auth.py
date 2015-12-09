@@ -1,6 +1,6 @@
 from mongoengine import DoesNotExist, ValidationError
 from pyramid.httpexceptions import HTTPFound
-from pyramid.security import remember
+from pyramid.security import remember, forget
 from pyramid.view import view_config
 from ..logger import get_logger
 
@@ -98,6 +98,11 @@ def register(request): # TODO Add captcha and e-mail verification
         request.session.flash('Account created.')
         return HTTPFound(location=request.route_url('home'))
     return {'recaptcha_site_key': request.registry.settings['recaptcha_site_key'], 'recaptcha_enabled': request.registry.settings['recaptcha_enabled']}
+
+
+@view_config(route_name='logout')
+def logout(request):
+    return HTTPFound(location=request.route_url('home'), headers=forget(request))
 
 
 def check_recaptcha(request):

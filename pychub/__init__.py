@@ -74,6 +74,7 @@ def main(global_config, **settings):
 
     # Account
     config.add_route('login', '/login')
+    config.add_route('logout', '/logout')
     config.add_route('register', '/register')
     config.add_route('account', '/account')
     config.add_route('account_add_character', '/account/character/add')
