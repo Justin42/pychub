@@ -6,6 +6,7 @@ from pyramid.authorization import ACLAuthorizationPolicy
 from pyramid.config import Configurator
 from pyramid.events import subscriber, BeforeRender
 from pyramid.session import SignedCookieSessionFactory
+from pyramid.settings import asbool
 
 from .logger import get_logger
 from .model.common import update_service
@@ -32,6 +33,10 @@ def main(global_config, **settings):
 
     # Database connect
     mongo.connect(config.registry.settings['mongo_database'])
+
+    update_service.enabled = asbool(config.registry.settings.enable_lodestone_updates)
+    if not update_service.enabled:
+        log.info('Lodestone update service is DISABLED')
 
     # Collect initial data
     try:

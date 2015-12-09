@@ -3,4 +3,4 @@ __pycache__/*
 .idea/*
 PyChub.egg-info/*
 */static/images/*
-*.log
+*.log*

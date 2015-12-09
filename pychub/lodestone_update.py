@@ -26,16 +26,18 @@ class LodestoneUpdater:
         self.delay = delay
         self.lodestone = LodestoneClient()
         self.worker_thread.start()
+        self.enabled = True
         self.log.info("Initialized lodestone update service")
 
     def queue(self, item: Updateable):
-        try:
-            if not item.last_update or item.last_update + item.update_frequency <= datetime.utcnow():
-                self.log.info("Queueing item for update %s %s '%s'", type(item).__name__, item.lodestone_id, item.name)
-                self.log.debug("Update queue size: %d", self.update_queue.qsize())
-                self.update_queue.put(item)
-        except Exception as ex:
-            self.log.exception('Unable to queue item for update')
+        if self.enabled:
+            try:
+                if not item.last_update or item.last_update + item.update_frequency <= datetime.utcnow():
+                    self.log.info("Queueing item for update %s %s '%s'", type(item).__name__, item.lodestone_id, item.name)
+                    self.log.debug("Update queue size: %d", self.update_queue.qsize())
+                    self.update_queue.put(item)
+            except Exception as ex:
+                self.log.exception('Unable to queue item for update')
 
     @property
     def queue_size(self):
@@ -60,7 +62,7 @@ class LodestoneUpdater:
                 # Queue new FC members to gather initial data
                 # TODO This isn't very efficient.
                 if type(item).__name__ == 'FreeCompany':
-                    fc_members = set([member['lodestone_id'] for member in item.members])
+                    fc_members = set([member.lodestone_id for member in item.members])
                     from pychub import Character
                     known_members = Character.objects(free_company=item, lodestone_id__in=fc_members)
                     known_members = set([member.lodestone_id for member in known_members])
